@@ -14,6 +14,11 @@ const routes: Routes = [
         (m) => m.CountriesVisitedModule
       ),
   },
+  {
+    path: 'wish-list',
+    loadChildren: () =>
+      import('./wish-list/wish-list.module').then((m) => m.WishListModule),
+  },
 ];
 
 @NgModule({
