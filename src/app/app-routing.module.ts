@@ -7,6 +7,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./countries/countries.module').then((m) => m.CountriesModule),
   },
+  {
+    path: 'countries-visited',
+    loadChildren: () =>
+      import('./countries-visited/countries-visited.module').then(
+        (m) => m.CountriesVisitedModule
+      ),
+  },
 ];
 
 @NgModule({
