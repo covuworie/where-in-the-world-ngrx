@@ -1,4 +1,4 @@
-interface CountrySummaryViewModel {
+export default interface CountrySummaryViewModel {
   name: string;
   flagUrl: string;
   population: number;

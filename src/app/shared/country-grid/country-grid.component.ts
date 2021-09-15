@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import CountrySummaryViewModel from '../country-summary/country-summary-view.model';
 
 @Component({
   selector: 'app-country-grid',
