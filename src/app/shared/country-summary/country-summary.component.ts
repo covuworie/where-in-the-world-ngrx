@@ -8,7 +8,14 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 })
 export class CountrySummaryComponent {
   // public properties
-  @Input() country!: CountrySummaryViewModel;
+  @Input() country: CountrySummaryViewModel = {
+    name: '',
+    flagUrl: '',
+    population: 0,
+    region: '',
+    capital: '',
+    isOnWishList: false,
+  };
   faHeart = faHeart;
   @Output() toggleWishList = new EventEmitter<boolean>();
 

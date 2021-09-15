@@ -4,9 +4,10 @@ import { CountrySummaryComponent } from './country-summary/country-summary.compo
 import { RouterModule } from '@angular/router';
 import { HyphenateUriPipe } from './hypenate-uri.pipe';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { CountryGridComponent } from './country-grid/country-grid.component';
 
 @NgModule({
-  declarations: [CountrySummaryComponent, HyphenateUriPipe],
+  declarations: [CountrySummaryComponent, HyphenateUriPipe, CountryGridComponent],
   imports: [CommonModule, RouterModule, FontAwesomeModule],
 })
 export class SharedModule {}
