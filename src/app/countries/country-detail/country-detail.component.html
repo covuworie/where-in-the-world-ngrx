@@ -1,0 +1,44 @@
+<main>
+  <img [src]="country.flagUrl" alt="{{ country.name }} flag" />
+  <div>
+    <h1>{{ country.name }}</h1>
+    <ul>
+      <li><b>Native Name</b>: {{ country.nativeName }}</li>
+      <li><b>Population</b>: {{ country.population }}</li>
+      <li><b>Region</b>: {{ country.region }}</li>
+      <li><b>Sub Region</b>: {{ country.subRegion }}</li>
+      <li><b>Capital</b>: {{ country.capital }}</li>
+    </ul>
+  </div>
+  <div>
+    <ul>
+      <li><b>Languages</b>: {{ country.languageNames }}</li>
+      <li>
+        <b>Currencies</b>:
+        {{ country.currencyNamesAndSymbols }}
+      </li>
+    </ul>
+  </div>
+  <div>
+    <ul>
+      <li><b>Time Zones</b>: {{ country.timeZones }}</li>
+      <li><b>Calling Codes</b>: {{ country.callingCodes }}</li>
+      <li><b>ISO 3166-1 alpha-3 Code</b>: {{ country.alpha3Code }}</li>
+      <li><b>Top Level Domain</b>: {{ country.topLevelDomain }}</li>
+    </ul>
+  </div>
+  <div>
+    <p><b>Bordering Countries</b></p>
+    <ul>
+      <li *ngFor="let borderingCountry of country.borderingCountries">
+        <a routerLink="/countries/{{ borderingCountry.name | hyphenateUri }}">
+          <img
+            [src]="borderingCountry.flagUrl"
+            alt="{{ borderingCountry.name }} flag"
+          />
+          {{ borderingCountry.name }}
+        </a>
+      </li>
+    </ul>
+  </div>
+</main>

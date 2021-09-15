@@ -7,7 +7,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CountryGridComponent } from './country-grid/country-grid.component';
 
 @NgModule({
-  declarations: [CountrySummaryComponent, HyphenateUriPipe, CountryGridComponent],
+  declarations: [
+    CountrySummaryComponent,
+    HyphenateUriPipe,
+    CountryGridComponent,
+  ],
   imports: [CommonModule, RouterModule, FontAwesomeModule],
+  exports: [HyphenateUriPipe],
 })
 export class SharedModule {}
