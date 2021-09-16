@@ -3,6 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: '/countries',
+    pathMatch: 'full',
+  },
+  {
     path: 'countries',
     loadChildren: () =>
       import('./countries/countries.module').then((m) => m.CountriesModule),
