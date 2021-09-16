@@ -1,0 +1,9 @@
+<div>
+  <fa-icon [icon]="faSearch"></fa-icon>
+  <input
+    type="text"
+    placeholder="Search for a country..."
+    (keyup)="inputChange.emit(countrySearch.value)"
+    #countrySearch
+  />
+</div>

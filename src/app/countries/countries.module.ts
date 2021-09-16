@@ -5,9 +5,14 @@ import { CountriesRoutingModule } from './countries-routing.module';
 import { CountriesComponent } from './countries.component';
 import { CountryDetailComponent } from './country-detail/country-detail.component';
 import { SharedModule } from '../shared/shared.module';
+import { CountrySearchComponent } from './country-search/country-search.component';
 
 @NgModule({
-  declarations: [CountriesComponent, CountryDetailComponent],
+  declarations: [
+    CountriesComponent,
+    CountryDetailComponent,
+    CountrySearchComponent,
+  ],
   imports: [CommonModule, CountriesRoutingModule, SharedModule],
 })
 export class CountriesModule {}
