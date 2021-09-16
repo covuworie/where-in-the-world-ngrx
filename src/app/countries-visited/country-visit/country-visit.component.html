@@ -1,0 +1,35 @@
+<fieldset [formGroup]="visit">
+  <legend>Enter Visit</legend>
+  <div>
+    <label for="year">Year</label>
+    <input
+      type="number"
+      name="year"
+      autocomplete="off"
+      formControlName="year"
+    />
+  </div>
+  <div>
+    <label for="country">Country</label>
+    <input
+      type="text"
+      name="country"
+      placeholder="Search for a country..."
+      autocomplete="off"
+      formControlName="country"
+      #countrySearch
+    />
+  </div>
+  <div>
+    <label for="duration">Duration (days)</label>
+    <input
+      type="number"
+      name="duration"
+      autocomplete="off"
+      formControlName="duration"
+    />
+  </div>
+  <div>
+    <button type="button">Delete</button>
+  </div>
+</fieldset>
