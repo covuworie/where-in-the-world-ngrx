@@ -13,6 +13,6 @@ import { CountryGridComponent } from './country-grid/country-grid.component';
     CountryGridComponent,
   ],
   imports: [CommonModule, RouterModule, FontAwesomeModule],
-  exports: [CountryGridComponent, HyphenateUriPipe],
+  exports: [CountryGridComponent, HyphenateUriPipe, FontAwesomeModule],
 })
 export class SharedModule {}

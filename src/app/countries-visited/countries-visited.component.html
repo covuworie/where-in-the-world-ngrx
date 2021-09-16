@@ -1,1 +1,7 @@
-<p>countries-visited works!</p>
+<main>
+  <br />
+  <form *ngFor="let countryVisit of countryVisits">
+    <app-country-visit [countryVisit]="countryVisit"></app-country-visit>
+  </form>
+  <button type="button"><fa-icon [icon]="faPlus"></fa-icon> Add</button>
+</main>
