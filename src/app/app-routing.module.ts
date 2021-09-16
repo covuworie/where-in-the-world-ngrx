@@ -8,9 +8,9 @@ const routes: Routes = [
       import('./countries/countries.module').then((m) => m.CountriesModule),
   },
   {
-    path: 'countries-visited',
+    path: 'country-visits',
     loadChildren: () =>
-      import('./countries-visited/countries-visited.module').then(
+      import('./country-visits/country-visits.module').then(
         (m) => m.CountriesVisitedModule
       ),
   },

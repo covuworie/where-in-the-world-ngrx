@@ -4,10 +4,10 @@ import CountryVisitViewModel from './country-visit/country-visit-view.model';
 
 @Component({
   selector: 'app-countries-visited',
-  templateUrl: './countries-visited.component.html',
-  styleUrls: ['./countries-visited.component.scss'],
+  templateUrl: './country-visits.component.html',
+  styleUrls: ['./country-visits.component.scss'],
 })
-export class CountriesVisitedComponent {
+export class CountryVisitsComponent {
   // public properties
   countryVisits: CountryVisitViewModel[] = [];
   faPlus = faPlus;
