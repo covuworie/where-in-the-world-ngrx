@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import CountrySummaryViewModel from './country-summary-view.model';
 
 @Component({
   selector: 'app-country-summary',

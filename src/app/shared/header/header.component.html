@@ -1,0 +1,27 @@
+<header>
+  <div>
+    <a routerLink="/" class>Where in the world?</a>
+    <button *ngIf="true; else darkTemplate">
+      <fa-icon [icon]="faMoon"></fa-icon><span>Dark Mode</span>
+    </button>
+    <ng-template #darkTemplate>
+      <button><fa-icon [icon]="faSun"></fa-icon><span>Light Mode</span></button>
+    </ng-template>
+  </div>
+  <nav>
+    <div>
+      <a
+        routerLink="/countries"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Countries</a
+      >
+      <a routerLink="/country-visits" routerLinkActive="active-link"
+        >Country Visits (0)</a
+      >
+      <a routerLink="/wish-list" routerLinkActive="active-link"
+        ><fa-icon [icon]="faHeart"></fa-icon> Wish List (0)</a
+      >
+    </div>
+  </nav>
+</header>

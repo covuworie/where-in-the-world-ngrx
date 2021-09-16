@@ -1,0 +1,74 @@
+header {
+  > div {
+    display: flex;
+    justify-content: space-between;
+
+    margin: 0 40rem 0 40rem;
+
+    a {
+      font-size: 20rem;
+      font-weight: bold;
+      padding: 20rem 0 20rem 0;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+
+    button {
+      border: none;
+      background-color: transparent;
+      color: var(--color-primary);
+
+      @media only screen and (max-width: 500px) {
+        padding: 20rem;
+      }
+
+      span {
+        margin-left: 5rem;
+
+        @media only screen and (max-width: 500px) {
+          margin-left: 0;
+          display: none;
+        }
+      }
+
+      &:hover {
+        background-color: var(--color-dull);
+      }
+    }
+  }
+
+  nav {
+    border: solid var(--color-dull);
+    border-width: 1px 0 1px 0;
+
+    div {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      @media only screen and (min-width: 600px) {
+        flex-direction: row;
+        justify-content: space-evenly;
+      }
+
+      margin: 0 40rem 0 40rem;
+      text-align: center;
+
+      a {
+        padding: 10rem;
+      }
+    }
+  }
+}
+
+.active-link,
+a:hover {
+  background-color: var(--color-dull);
+}
+
+.moon,
+.sun {
+  color: var(--color-primary);
+}
