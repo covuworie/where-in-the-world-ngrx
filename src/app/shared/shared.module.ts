@@ -6,6 +6,7 @@ import { HyphenateUriPipe } from './hypenate-uri.pipe';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CountryGridComponent } from './country-grid/country-grid.component';
 import { HeaderComponent } from './header/header.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { HeaderComponent } from './header/header.component';
     HyphenateUriPipe,
     CountryGridComponent,
     HeaderComponent,
+    NotFoundComponent,
   ],
   imports: [CommonModule, RouterModule, FontAwesomeModule],
   exports: [
