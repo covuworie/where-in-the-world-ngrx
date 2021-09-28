@@ -1,11 +1,21 @@
 import { createAction, props } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 
-import { Country } from './country.model';
+import { Country } from '../shared/country.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
-export const loadCountrys = createAction(
-  '[Country/API] Load Countrys',
-  props<{ countrys: Country[] }>()
+export const loadCountries = createAction(
+  '[Countries Component] Load Countries'
+);
+
+export const loadCountriesFailure = createAction(
+  '[Countries API] Load Countries Failure',
+  props<{ error: HttpErrorResponse }>()
+);
+
+export const loadCountriesSuccess = createAction(
+  '[Countries API] Load Countries Success',
+  props<{ countries: Country[] }>()
 );
 
 export const addCountry = createAction(

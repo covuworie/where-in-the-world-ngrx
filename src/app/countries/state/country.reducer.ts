@@ -1,16 +1,18 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Country } from './country.model';
+import { Country } from '../shared/country.model';
 import * as CountryActions from './country.actions';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export const countriesFeatureKey = 'countries';
 
 export interface State extends EntityState<Country> {
   // additional entities state properties
+  error: HttpErrorResponse | null;
 }
 
-export function selectCCN3(a: Country): string {
-  return a.ccn3;
+export function selectCCA3(a: Country): string {
+  return a.cca3; // ccn3 would be a better choice but it's missing for Kosovo
 }
 
 export function sortByCommonName(a: Country, b: Country): number {
@@ -18,12 +20,13 @@ export function sortByCommonName(a: Country, b: Country): number {
 }
 
 export const adapter: EntityAdapter<Country> = createEntityAdapter<Country>({
-  selectId: selectCCN3,
+  selectId: selectCCA3,
   sortComparer: sortByCommonName,
 });
 
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
+  error: null,
 });
 
 export const reducer = createReducer(
@@ -52,8 +55,14 @@ export const reducer = createReducer(
   on(CountryActions.deleteCountrys, (state, action) =>
     adapter.removeMany(action.ids, state)
   ),
-  on(CountryActions.loadCountrys, (state, action) =>
-    adapter.setAll(action.countrys, state)
+  on(CountryActions.loadCountriesFailure, (state, action): State => {
+    return {
+      ...state,
+      error: action.error,
+    };
+  }),
+  on(CountryActions.loadCountriesSuccess, (state, action) =>
+    adapter.setAll(action.countries, state)
   ),
   on(CountryActions.clearCountrys, (state) => adapter.removeAll(state))
 );
