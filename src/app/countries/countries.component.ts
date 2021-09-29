@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 import CountrySummaryViewModel from '../shared/country-summary/country-summary-view.model';
+import { Country } from './shared/country.model';
 import * as CountryActions from './state/country.actions';
+import * as CountrySelectors from './state/country.selectors';
 
 @Component({
   selector: 'app-countries',
@@ -12,10 +16,27 @@ export class CountriesComponent implements OnInit {
   // public properties
   countries: CountrySummaryViewModel[] = [];
 
+  // private fields
+  private isCountriesInStore$: Observable<boolean> = of(false);
+  private countries$: Observable<Country[]> = of([]);
+
   // public methods
   constructor(private store: Store) {}
 
   ngOnInit() {
-    this.store.dispatch(CountryActions.loadCountries());
+    this.isCountriesInStore$ = this.store.select(
+      CountrySelectors.selectCountriesExists
+    );
+
+    this.countries$ = this.isCountriesInStore$.pipe(
+      mergeMap((countriesExistsInStore) => {
+        if (!countriesExistsInStore) {
+          this.store.dispatch(CountryActions.loadCountries());
+        }
+
+        return this.store.select(CountrySelectors.selectAllCountries);
+      })
+    );
+    this.countries$.subscribe();
   }
 }
