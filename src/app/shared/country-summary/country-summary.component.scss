@@ -1,0 +1,27 @@
+$width: 100%;
+$padding: 12rem;
+
+img {
+  width: $width;
+  height: 50%;
+  object-fit: cover;
+  border-bottom: 1px solid lightgrey;
+}
+
+h3 {
+  font-size: 16rem;
+}
+
+h3,
+ul {
+  padding-left: $padding;
+}
+
+ul {
+  list-style-type: none;
+  font-size: 14rem;
+
+  li {
+    line-height: 20rem;
+  }
+}
