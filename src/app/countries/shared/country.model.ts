@@ -29,5 +29,6 @@ export interface Country {
     fra: { f: string; m: string };
   };
   flag: string;
+  population: number;
   flags: { svg: string; png: string };
 }
