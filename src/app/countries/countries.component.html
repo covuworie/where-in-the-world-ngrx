@@ -1,7 +1,9 @@
 <main *ngIf="vm$ | async as vm">
   <div>
     <app-country-search></app-country-search>
-    <app-region-filter></app-region-filter>
+    <app-region-filter
+      (regionChange)="onRegionChange($event)"
+    ></app-region-filter>
   </div>
   <app-country-grid [countries]="vm"></app-country-grid>
 </main>

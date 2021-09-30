@@ -2,18 +2,17 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import CountrySummaryViewModel from 'src/app/shared/country-summary/country-summary-view.model';
 import * as CountryReducer from '../state/country.reducer';
 
-export const selectFeatureProperty =
-  createFeatureSelector<CountryReducer.State>(
-    CountryReducer.countriesFeatureKey
-  );
+export const selectCountriesState = createFeatureSelector<CountryReducer.State>(
+  CountryReducer.countriesFeatureKey
+);
 
 export const selectAllCountries = createSelector(
-  selectFeatureProperty,
+  selectCountriesState,
   CountryReducer.selectAll
 );
 
 export const selectTotal = createSelector(
-  selectFeatureProperty,
+  selectCountriesState,
   CountryReducer.selectTotal
 );
 
@@ -41,3 +40,10 @@ export const selectCountrySummaryViewModels = createSelector(
     return countrySummaries;
   }
 );
+
+export const selectCountrySummaryByRegionViewModels = (region: string) =>
+  createSelector(selectCountrySummaryViewModels, (countries) =>
+    region !== 'All Regions'
+      ? countries.filter((country) => country.region === region)
+      : countries
+  );

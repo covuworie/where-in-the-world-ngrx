@@ -17,10 +17,10 @@ export class RegionFilterComponent {
   private sortedRegions = [
     'Africa',
     'Americas',
+    'Antarctic',
     'Asia',
     'Europe',
     'Oceania',
-    'Polar',
   ];
 
   // public methods
@@ -29,11 +29,8 @@ export class RegionFilterComponent {
   onChangeRegion(region: string) {
     this.regions.forEach((region) => this.onToggleRegion(region));
     this.selectedRegion = region;
-
-    if (region !== this.filterHeader) {
-      this.regionChange.emit(region);
-    }
     this.onToggleDropdown();
+    this.regionChange.emit(region);
   }
 
   onToggleDropdown() {

@@ -38,4 +38,10 @@ export class CountriesComponent implements OnInit {
       })
     );
   }
+
+  onRegionChange(region: string) {
+    this.vm$ = this.store.select(
+      CountrySelectors.selectCountrySummaryByRegionViewModels(region)
+    );
+  }
 }
