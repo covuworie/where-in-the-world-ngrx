@@ -8,7 +8,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 })
 export class CountrySearchComponent {
   // public properties
-  @Output() inputChange = new EventEmitter<string>();
+  @Output() countrySearchChange = new EventEmitter<string>();
   faSearch = faSearch;
 
   // public methods

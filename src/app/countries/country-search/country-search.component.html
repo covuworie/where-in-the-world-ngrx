@@ -3,7 +3,7 @@
   <input
     type="text"
     placeholder="Search for a country..."
-    (keyup)="inputChange.emit(countrySearch.value)"
+    (keyup)="countrySearchChange.emit(countrySearch.value)"
     #countrySearch
   />
 </div>

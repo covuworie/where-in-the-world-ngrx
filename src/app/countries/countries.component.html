@@ -1,6 +1,8 @@
 <main *ngIf="vm$ | async as vm">
   <div>
-    <app-country-search></app-country-search>
+    <app-country-search
+      (countrySearchChange)="onCountrySearchChange($event)"
+    ></app-country-search>
     <app-region-filter
       (regionChange)="onRegionChange($event)"
     ></app-region-filter>

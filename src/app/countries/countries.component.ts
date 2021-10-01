@@ -39,9 +39,15 @@ export class CountriesComponent implements OnInit {
     );
   }
 
+  onCountrySearchChange(partialName: string) {
+    this.vm$ = this.store.select(
+      CountrySelectors.selectCountrySummaryViewModelsByPartialName(partialName)
+    );
+  }
+
   onRegionChange(region: string) {
     this.vm$ = this.store.select(
-      CountrySelectors.selectCountrySummaryByRegionViewModels(region)
+      CountrySelectors.selectCountrySummaryViewModelsByRegion(region)
     );
   }
 }

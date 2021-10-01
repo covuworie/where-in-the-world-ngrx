@@ -21,6 +21,18 @@ export const selectCountriesExists = createSelector(
   (total) => total > 0
 );
 
+export const selectCommonToOfficialName = createSelector(
+  selectAllCountries,
+  (countries) => {
+    const commonToOfficialName: { [commonName: string]: string } = {};
+    countries.forEach(
+      (country) =>
+        (commonToOfficialName[country.name.common] = country.name.official)
+    );
+    return commonToOfficialName;
+  }
+);
+
 // View Models
 export const selectCountrySummaryViewModels = createSelector(
   selectAllCountries,
@@ -41,9 +53,25 @@ export const selectCountrySummaryViewModels = createSelector(
   }
 );
 
-export const selectCountrySummaryByRegionViewModels = (region: string) =>
+export const selectCountrySummaryViewModelsByRegion = (region: string) =>
   createSelector(selectCountrySummaryViewModels, (countries) =>
     region !== 'All Regions'
       ? countries.filter((country) => country.region === region)
       : countries
+  );
+
+export const selectCountrySummaryViewModelsByPartialName = (
+  partialName: string
+) =>
+  createSelector(
+    selectCountrySummaryViewModels,
+    selectCommonToOfficialName,
+    (countrySummaryViewModels, commonToOfficialName) =>
+      countrySummaryViewModels.filter(
+        (country) =>
+          country.name.toLowerCase().includes(partialName.toLowerCase()) ||
+          commonToOfficialName[country.name]
+            .toLowerCase()
+            .includes(partialName.toLowerCase())
+      )
   );
