@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { concatMap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 import CountrySummaryViewModel from '../shared/country-summary/country-summary-view.model';
 import * as CountrySelectors from '../countries/state/country.selectors';
 import * as WishListActions from '../store/actions/wish-list.actions';
@@ -23,12 +23,9 @@ export class WishListComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit() {
+    this.store.dispatch(WishListActions.load());
     this.vm$ = this.wishList$.pipe(
-      concatMap((wishList) => {
-        if (wishList.length === 0) {
-          this.store.dispatch(WishListActions.load());
-        }
-
+      mergeMap((wishList) => {
         return this.store.select(
           CountrySelectors.selectCountrySummaryViewModelsByNames(wishList)
         );
