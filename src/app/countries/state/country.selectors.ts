@@ -47,7 +47,6 @@ export const selectCountrySummaryViewModels = createSelector(
         population: country.population,
         region: country.region,
         capital: country.capital ? country.capital[0] : '',
-        isOnWishList: country.name.common in wishList,
       };
       countrySummaries.push(summary);
     });

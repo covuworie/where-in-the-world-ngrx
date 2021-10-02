@@ -4,5 +4,4 @@ export default interface CountrySummaryViewModel {
   population: number;
   region: string;
   capital: string;
-  isOnWishList: boolean;
 }

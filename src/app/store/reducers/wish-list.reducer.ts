@@ -17,16 +17,29 @@ export const initialState: State = {
 export const reducer = createReducer(
   initialState,
 
+  on(
+    WishListActions.addFailure,
+    WishListActions.removeFailure,
+    (state, { error }): State => {
+      return {
+        ...state,
+        error,
+      };
+    }
+  ),
   on(WishListActions.addSuccess, (state, { name }): State => {
+    if (state.names.indexOf(name) > -1) {
+      return state;
+    }
     return {
       ...state,
       names: [...state.names, name],
     };
   }),
-  on(WishListActions.addFailure, (state, { error }): State => {
+  on(WishListActions.removeSuccess, (state, { name }): State => {
     return {
       ...state,
-      error,
+      names: state.names.filter((countryName) => countryName !== name),
     };
   })
 );

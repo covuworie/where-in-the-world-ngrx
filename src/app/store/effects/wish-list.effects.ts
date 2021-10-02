@@ -9,7 +9,7 @@ import { WishListService } from 'src/app/wish-list/shared/wish-list.service';
 
 @Injectable()
 export class WishListEffects {
-  addCountryName$ = createEffect(() => {
+  add$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(WishListActions.add),
       mergeMap(({ name }) =>
@@ -17,6 +17,20 @@ export class WishListEffects {
           map(() => WishListActions.addSuccess({ name })),
           catchError((error: HttpErrorResponse) =>
             of(WishListActions.addFailure({ error }))
+          )
+        )
+      )
+    );
+  });
+
+  remove$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(WishListActions.remove),
+      mergeMap(({ name }) =>
+        this.wishListService.remove(name).pipe(
+          map(() => WishListActions.removeSuccess({ name })),
+          catchError((error: HttpErrorResponse) =>
+            of(WishListActions.removeFailure({ error }))
           )
         )
       )

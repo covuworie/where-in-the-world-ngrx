@@ -22,4 +22,8 @@ export class WishListService {
   }
 
   constructor(private http: HttpClient) {}
+
+  remove(id: string) {
+    return this.http.delete(`${this.jsonServerUrl}/${id}`);
+  }
 }
