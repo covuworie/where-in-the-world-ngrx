@@ -12,5 +12,5 @@
 <fa-icon
   [icon]="faHeart"
   size="2x"
-  (click)="toggleWishList.emit(!country.isOnWishList)"
+  (click)="onToggleWishList(country.name)"
 ></fa-icon>

@@ -10,6 +10,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import { HttpClientModule } from '@angular/common/http';
+import { WishListEffects } from './store/effects/wish-list.effects';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,7 +26,7 @@ import { HttpClientModule } from '@angular/common/http';
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([WishListEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent],

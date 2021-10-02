@@ -1,6 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import CountrySummaryViewModel from 'src/app/shared/country-summary/country-summary-view.model';
 import * as CountryReducer from '../state/country.reducer';
+import * as WishListSelectors from '../../store/selectors/wish-list.selectors';
 
 export const selectCountriesState = createFeatureSelector<CountryReducer.State>(
   CountryReducer.countriesFeatureKey
@@ -36,7 +37,8 @@ export const selectCommonToOfficialName = createSelector(
 // View Models
 export const selectCountrySummaryViewModels = createSelector(
   selectAllCountries,
-  (countries) => {
+  WishListSelectors.selectWishList,
+  (countries, wishList) => {
     const countrySummaries: CountrySummaryViewModel[] = [];
     countries.map((country) => {
       const summary: CountrySummaryViewModel = {
@@ -45,7 +47,7 @@ export const selectCountrySummaryViewModels = createSelector(
         population: country.population,
         region: country.region,
         capital: country.capital ? country.capital[0] : '',
-        isOnWishList: false,
+        isOnWishList: country.name.common in wishList,
       };
       countrySummaries.push(summary);
     });

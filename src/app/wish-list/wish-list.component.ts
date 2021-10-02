@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import CountrySummaryViewModel from '../shared/country-summary/country-summary-view.model';
+import * as CountrySelectors from '../countries/state/country.selectors';
 
 @Component({
   selector: 'app-wish-list',
@@ -8,8 +11,11 @@ import CountrySummaryViewModel from '../shared/country-summary/country-summary-v
 })
 export class WishListComponent {
   // public properties
-  countries: CountrySummaryViewModel[] = [];
+  // need to change to actual subset on wish list
+  vm$: Observable<CountrySummaryViewModel[]> = this.store.select(
+    CountrySelectors.selectCountrySummaryViewModels
+  );
 
   // public methods
-  constructor() {}
+  constructor(private store: Store) {}
 }

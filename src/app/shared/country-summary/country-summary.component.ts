@@ -1,6 +1,8 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
 import CountrySummaryViewModel from './country-summary-view.model';
+import * as WishListActions from '../../store/actions/wish-list.actions';
 
 @Component({
   selector: 'app-country-summary',
@@ -18,8 +20,14 @@ export class CountrySummaryComponent {
     isOnWishList: false,
   };
   faHeart = faHeart;
-  @Output() toggleWishList = new EventEmitter<boolean>();
 
   // public methods
-  constructor() {}
+  constructor(private store: Store) {}
+
+  onToggleWishList(name: string) {
+    if (!this.country.isOnWishList) {
+      this.store.dispatch(WishListActions.add({ name }));
+    }
+    // else remove
+  }
 }
