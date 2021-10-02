@@ -19,6 +19,7 @@ export const reducer = createReducer(
 
   on(
     WishListActions.addFailure,
+    WishListActions.loadFailure,
     WishListActions.removeFailure,
     (state, { error }): State => {
       return {
@@ -34,6 +35,13 @@ export const reducer = createReducer(
     return {
       ...state,
       names: [...state.names, name],
+    };
+  }),
+  on(WishListActions.loadSuccess, (state, action): State => {
+    const names = action.countries.map((country) => country.id);
+    return {
+      ...state,
+      names: [...names],
     };
   }),
   on(WishListActions.removeSuccess, (state, { name }): State => {

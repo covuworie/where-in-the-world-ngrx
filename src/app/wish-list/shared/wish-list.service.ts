@@ -9,10 +9,10 @@ export class WishListService {
   private readonly jsonServerUrl = 'http://localhost:3000/wishList';
 
   // public methods
-  add(name: string) {
-    return this.http.post<{ name: string }>(
+  add(id: string) {
+    return this.http.post<{ id: string }>(
       this.jsonServerUrl,
-      { id: name },
+      { id },
       {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
@@ -22,6 +22,10 @@ export class WishListService {
   }
 
   constructor(private http: HttpClient) {}
+
+  getAll() {
+    return this.http.get<{ id: string }[]>(`${this.jsonServerUrl}`);
+  }
 
   remove(id: string) {
     return this.http.delete(`${this.jsonServerUrl}/${id}`);

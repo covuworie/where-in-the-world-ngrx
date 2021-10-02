@@ -16,6 +16,18 @@ export const addFailure = createAction(
   props<{ error: HttpErrorResponse }>()
 );
 
+export const load = createAction('[Wish List Component] Load');
+
+export const loadFailure = createAction(
+  '[Wish List API] Load Failure',
+  props<{ error: HttpErrorResponse }>()
+);
+
+export const loadSuccess = createAction(
+  '[Wish List API] Load Success',
+  props<{ countries: { id: string }[] }>()
+);
+
 export const remove = createAction(
   '[Country Summary Component] Remove From Wish List',
   props<{ name: string }>()
