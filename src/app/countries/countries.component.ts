@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { filter, mergeMap, tap } from 'rxjs/operators';
 import CountrySummaryViewModel from '../shared/country-summary/country-summary-view.model';
-import * as CountryActions from './state/country.actions';
+import * as CountryAndWishListActions from '../store/actions/countries-and-wish-list.actions';
 import * as CountrySelectors from './state/country.selectors';
+import * as WishListSelectors from '../store/selectors/wish-list.selectors';
 
 @Component({
   selector: 'app-countries',
@@ -16,24 +17,27 @@ export class CountriesComponent implements OnInit {
   vm$: Observable<CountrySummaryViewModel[]> = of([]);
 
   // private fields
-  private isCountriesInStore$: Observable<boolean> = of(false);
+  private wishList: string[] = [];
 
   // public methods
   constructor(private store: Store) {}
 
   ngOnInit() {
-    this.isCountriesInStore$ = this.store.select(
-      CountrySelectors.selectCountriesExists
-    );
+    // load countries and wish list if not in store
+    this.store
+      .select(CountrySelectors.selectTotal)
+      .pipe(
+        filter((total) => total === 0),
+        tap(() => this.store.dispatch(CountryAndWishListActions.load()))
+      )
+      .subscribe();
 
-    this.vm$ = this.isCountriesInStore$.pipe(
-      mergeMap((countriesExistsInStore) => {
-        if (!countriesExistsInStore) {
-          this.store.dispatch(CountryActions.loadCountries());
-        }
-
+    // load view models
+    this.vm$ = this.store.select(WishListSelectors.selectWishList).pipe(
+      mergeMap((wishList) => {
+        this.wishList = wishList;
         return this.store.select(
-          CountrySelectors.selectCountrySummaryViewModels
+          CountrySelectors.selectCountrySummaryViewModels(this.wishList)
         );
       })
     );
@@ -41,13 +45,19 @@ export class CountriesComponent implements OnInit {
 
   onCountrySearchChange(partialName: string) {
     this.vm$ = this.store.select(
-      CountrySelectors.selectCountrySummaryViewModelsByPartialName(partialName)
+      CountrySelectors.selectCountrySummaryViewModelsByPartialName(
+        this.wishList,
+        partialName
+      )
     );
   }
 
   onRegionChange(region: string) {
     this.vm$ = this.store.select(
-      CountrySelectors.selectCountrySummaryViewModelsByRegion(region)
+      CountrySelectors.selectCountrySummaryViewModelsByRegion(
+        this.wishList,
+        region
+      )
     );
   }
 }

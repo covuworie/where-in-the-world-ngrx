@@ -1,17 +1,19 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Action, createReducer, on } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import * as WishListActions from '../../store/actions/wish-list.actions';
 
 export const wishListFeatureKey = 'wishList';
 
 export interface State {
+  isLoaded: boolean;
   names: string[];
-  error: HttpErrorResponse | null;
+  error: HttpErrorResponse | undefined;
 }
 
 export const initialState: State = {
+  isLoaded: false,
   names: [],
-  error: null,
+  error: undefined,
 };
 
 export const reducer = createReducer(
@@ -19,7 +21,6 @@ export const reducer = createReducer(
 
   on(
     WishListActions.addFailure,
-    WishListActions.loadFailure,
     WishListActions.removeFailure,
     (state, { error }): State => {
       return {
@@ -37,10 +38,18 @@ export const reducer = createReducer(
       names: [...state.names, name],
     };
   }),
+  on(WishListActions.loadFailure, (state, { error }): State => {
+    return {
+      ...state,
+      isLoaded: false,
+      error,
+    };
+  }),
   on(WishListActions.loadSuccess, (state, action): State => {
     const names = action.countries.map((country) => country.id);
     return {
       ...state,
+      isLoaded: true,
       names: [...names],
     };
   }),

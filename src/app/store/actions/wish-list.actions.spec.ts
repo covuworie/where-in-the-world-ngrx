@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { WishListEffects } from '../effects/wish-list.effects';
 
-describe('CountryEffects', () => {
+describe('WishListEffects', () => {
   let actions$: Observable<any>;
   let effects: WishListEffects;
 

@@ -23,20 +23,6 @@ export class WishListEffects {
     );
   });
 
-  load$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(WishListActions.load),
-      mergeMap(() =>
-        this.wishListService.getAll().pipe(
-          map((countries) => WishListActions.loadSuccess({ countries })),
-          catchError((error: HttpErrorResponse) =>
-            of(WishListActions.loadFailure({ error }))
-          )
-        )
-      )
-    );
-  });
-
   remove$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(WishListActions.remove),

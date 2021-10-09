@@ -21,18 +21,18 @@ export class LocalStorageService {
 
   static getOrRemoveExpiredItem(key: string) {
     const itemStr = localStorage.getItem(key);
-    // if the item doesn't exist, return null
+    // if the item doesn't exist, return undefined
     if (!itemStr) {
-      return null;
+      return undefined;
     }
     const item: { value: string; expiry: number } = JSON.parse(itemStr);
     const now = new Date();
     // compare the expiry time of the item with the current time
     if (now.getTime() > item.expiry) {
       // If the item is expired, delete the item from storage
-      // and return null
+      // and return undefined
       localStorage.removeItem(key);
-      return null;
+      return undefined;
     }
     return JSON.parse(item.value);
   }

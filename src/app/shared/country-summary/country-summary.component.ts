@@ -3,8 +3,6 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import CountrySummaryViewModel from './country-summary-view.model';
 import * as WishListActions from '../../store/actions/wish-list.actions';
-import * as WishListSelectors from '../../store/selectors/wish-list.selectors';
-import { Observable } from 'rxjs';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
@@ -20,16 +18,13 @@ export class CountrySummaryComponent implements OnInit {
     population: 0,
     region: '',
     capital: '',
+    onWishList: false,
   };
   faHeart = faHeart;
   @ViewChild(FaIconComponent, { static: true })
   heartComponent!: FaIconComponent;
 
   // private fields
-  private isOnWishList: boolean = false;
-  private wishList$: Observable<string[]> = this.store.select(
-    WishListSelectors.selectWishList
-  );
   private readonly wishListHeartOff = {
     position: 'absolute',
     bottom: '12rem',
@@ -43,24 +38,20 @@ export class CountrySummaryComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit() {
-    this.wishList$.subscribe((wishList) => {
-      this.isOnWishList = wishList.includes(this.country.name);
-    });
-
-    this.isOnWishList
+    this.country.onWishList
       ? (this.heartComponent.styles = this.wishListHeartOn)
       : (this.heartComponent.styles = this.wishListHeartOff);
   }
 
   onToggleWishList(name: string) {
-    if (this.isOnWishList) {
+    if (this.country.onWishList) {
       this.store.dispatch(WishListActions.remove({ name }));
       this.heartComponent.styles = this.wishListHeartOff;
-      this.isOnWishList = false;
+      this.country.onWishList = false;
     } else {
       this.store.dispatch(WishListActions.add({ name }));
       this.heartComponent.styles = this.wishListHeartOn;
-      this.isOnWishList = true;
+      this.country.onWishList = true;
     }
 
     this.heartComponent.render();

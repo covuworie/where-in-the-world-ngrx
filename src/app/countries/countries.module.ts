@@ -9,8 +9,6 @@ import { CountrySearchComponent } from './country-search/country-search.componen
 import { RegionFilterComponent } from './region-filter/region-filter.component';
 import { StoreModule } from '@ngrx/store';
 import * as fromCountry from './state/country.reducer';
-import { EffectsModule } from '@ngrx/effects';
-import { CountryEffects } from './state/country.effects';
 
 @NgModule({
   declarations: [
@@ -27,7 +25,6 @@ import { CountryEffects } from './state/country.effects';
       fromCountry.countriesFeatureKey,
       fromCountry.reducer
     ),
-    EffectsModule.forFeature([CountryEffects]),
   ],
 })
 export class CountriesModule {}

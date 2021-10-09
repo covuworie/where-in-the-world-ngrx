@@ -14,11 +14,11 @@ export class CountriesService {
 
   public getAll() {
     // Get from local storage
-    const countriesData: { countries: Country[] } | null =
+    const countriesData: { countries: Country[] } | undefined =
       LocalStorageService.getOrRemoveExpiredItem(
         CountryReducer.countriesFeatureKey
       );
-    if (countriesData !== null) {
+    if (countriesData !== undefined) {
       return of(countriesData.countries);
     }
 

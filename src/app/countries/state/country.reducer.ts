@@ -1,4 +1,4 @@
-import { Action, createReducer, on } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Country } from '../shared/country.model';
 import * as CountryActions from './country.actions';
@@ -8,7 +8,7 @@ export const countriesFeatureKey = 'countries';
 
 export interface State extends EntityState<Country> {
   // additional entities state properties
-  error: HttpErrorResponse | null;
+  error: HttpErrorResponse | undefined;
 }
 
 export function selectCCA3(a: Country): string {
@@ -26,45 +26,20 @@ export const adapter: EntityAdapter<Country> = createEntityAdapter<Country>({
 
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
-  error: null,
+  error: undefined,
 });
 
 export const reducer = createReducer(
   initialState,
-  on(CountryActions.addCountry, (state, action) =>
-    adapter.addOne(action.country, state)
-  ),
-  on(CountryActions.upsertCountry, (state, action) =>
-    adapter.upsertOne(action.country, state)
-  ),
-  on(CountryActions.addCountrys, (state, action) =>
-    adapter.addMany(action.countrys, state)
-  ),
-  on(CountryActions.upsertCountrys, (state, action) =>
-    adapter.upsertMany(action.countrys, state)
-  ),
-  on(CountryActions.updateCountry, (state, action) =>
-    adapter.updateOne(action.country, state)
-  ),
-  on(CountryActions.updateCountrys, (state, action) =>
-    adapter.updateMany(action.countrys, state)
-  ),
-  on(CountryActions.deleteCountry, (state, action) =>
-    adapter.removeOne(action.id, state)
-  ),
-  on(CountryActions.deleteCountrys, (state, action) =>
-    adapter.removeMany(action.ids, state)
-  ),
-  on(CountryActions.loadCountriesFailure, (state, action): State => {
+  on(CountryActions.loadFailure, (state, action): State => {
     return {
       ...state,
       error: action.error,
     };
   }),
-  on(CountryActions.loadCountriesSuccess, (state, action) =>
+  on(CountryActions.loadSuccess, (state, action) =>
     adapter.setAll(action.countries, state)
-  ),
-  on(CountryActions.clearCountrys, (state) => adapter.removeAll(state))
+  )
 );
 
 export const { selectIds, selectEntities, selectAll, selectTotal } =
