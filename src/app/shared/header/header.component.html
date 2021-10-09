@@ -1,4 +1,4 @@
-<header>
+<header *ngIf="vm$ | async as vm">
   <div>
     <a routerLink="/" class>Where in the world?</a>
     <button *ngIf="true; else darkTemplate">
@@ -20,7 +20,9 @@
         >Country Visits (0)</a
       >
       <a routerLink="/wish-list" routerLinkActive="active-link"
-        ><fa-icon [icon]="faHeart"></fa-icon> Wish List (0)</a
+        ><fa-icon [icon]="faHeart"></fa-icon> Wish List ({{
+          vm.wishListCount
+        }})</a
       >
     </div>
   </nav>

@@ -4,29 +4,28 @@ import * as CountrySelectors from '../../countries/state/country.selectors';
 import * as WishListSelectors from './wish-list.selectors';
 
 // View Models
-export const selectCountrySummaryViewModels = () =>
-  createSelector(
-    CountrySelectors.selectAllCountries,
-    WishListSelectors.selectWishList,
-    (countries, wishList) => {
-      const countrySummaries: CountrySummaryViewModel[] = [];
-      countries.map((country) => {
-        const summary: CountrySummaryViewModel = {
-          name: country.name.common,
-          flagUrl: country.flags.svg,
-          population: country.population,
-          region: country.region,
-          capital: country.capital ? country.capital[0] : '',
-          onWishList: wishList.includes(country.name.common),
-        };
-        countrySummaries.push(summary);
-      });
-      return countrySummaries;
-    }
-  );
+export const selectCountrySummaryViewModels = createSelector(
+  CountrySelectors.selectAllCountries,
+  WishListSelectors.selectWishList,
+  (countries, wishList) => {
+    const countrySummaries: CountrySummaryViewModel[] = [];
+    countries.map((country) => {
+      const summary: CountrySummaryViewModel = {
+        name: country.name.common,
+        flagUrl: country.flags.svg,
+        population: country.population,
+        region: country.region,
+        capital: country.capital ? country.capital[0] : '',
+        onWishList: wishList.includes(country.name.common),
+      };
+      countrySummaries.push(summary);
+    });
+    return countrySummaries;
+  }
+);
 
 export const selectCountrySummaryViewModelsByRegion = (region: string) =>
-  createSelector(selectCountrySummaryViewModels(), (countries) =>
+  createSelector(selectCountrySummaryViewModels, (countries) =>
     region !== 'All Regions'
       ? countries.filter((country) => country.region === region)
       : countries
@@ -36,7 +35,7 @@ export const selectCountrySummaryViewModelsByPartialName = (
   partialName: string
 ) =>
   createSelector(
-    selectCountrySummaryViewModels(),
+    selectCountrySummaryViewModels,
     CountrySelectors.selectCommonToOfficialName,
     (countrySummaryViewModels, commonToOfficialName) =>
       countrySummaryViewModels.filter(
@@ -50,7 +49,7 @@ export const selectCountrySummaryViewModelsByPartialName = (
 
 export const selectCountrySummaryViewModelsByNames = () =>
   createSelector(
-    selectCountrySummaryViewModels(),
+    selectCountrySummaryViewModels,
     WishListSelectors.selectWishList,
     (countrySummaryViewModels, wishList) => {
       return countrySummaryViewModels.filter((country) =>

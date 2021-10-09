@@ -14,3 +14,8 @@ export const selectWishList = createSelector(
   selectWishListState,
   (wishList) => wishList.names
 );
+
+export const selectWishListCount = createSelector(
+  selectWishList,
+  (wishList) => wishList.length
+);

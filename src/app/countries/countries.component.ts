@@ -31,7 +31,7 @@ export class CountriesComponent implements OnInit {
 
     // load view models
     this.vm$ = this.store.select(
-      CountrySummarySelectors.selectCountrySummaryViewModels()
+      CountrySummarySelectors.selectCountrySummaryViewModels
     );
   }
 
