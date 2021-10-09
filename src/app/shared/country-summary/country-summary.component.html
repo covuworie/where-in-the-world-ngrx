@@ -1,5 +1,5 @@
 <a routerLink="/countries/{{ country.name | hyphenateUri }}"
-  ><img [src]="country.flagUrl" alt="Country flag"
+  ><img [src]="country.flagUrl" alt="{{ country.name }} flag"
 /></a>
 <a routerLink="/countries/{{ country.name | hyphenateUri }}"
   ><h3>{{ country.name }}</h3>

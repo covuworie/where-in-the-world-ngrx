@@ -2,7 +2,7 @@ export interface Country {
   name: {
     common: string;
     official: string;
-    nativeName: { [cca3: string]: { official: string; common: string } };
+    nativeName: { [langCode: string]: { official: string; common: string } };
   };
   tld: string[];
   cca2: string;
@@ -18,8 +18,8 @@ export interface Country {
   altSpellings: string[];
   region: string;
   subregion: string;
-  languages: { [cca3: string]: string };
-  translations: { [cca3: string]: { official: string; common: string } };
+  languages: { [langCode: string]: string };
+  translations: { [langCode: string]: { official: string; common: string } };
   latlng: [number, number];
   landlocked: boolean;
   borders: string[];

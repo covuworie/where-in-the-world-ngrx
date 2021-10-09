@@ -8,8 +8,7 @@ export default interface CountryDetailViewModel {
   capital: string;
   languageNames: string[];
   currencyNamesAndSymbols: string[];
-  timeZones: string[];
-  callingCodes: string[];
+  callingCode: string;
   alpha3Code: string;
   topLevelDomain: string;
   borderingCountries: { name: string; flagUrl: string }[];
