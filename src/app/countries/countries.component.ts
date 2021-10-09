@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { filter, mergeMap, tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import CountrySummaryViewModel from '../shared/country-summary/country-summary-view.model';
 import * as CountryAndWishListActions from '../store/actions/countries-and-wish-list.actions';
 import * as CountrySelectors from './state/country.selectors';
-import * as WishListSelectors from '../store/selectors/wish-list.selectors';
+import * as CountrySummarySelectors from '../store/selectors/country-summary.selectors';
 
 @Component({
   selector: 'app-countries',
@@ -15,9 +15,6 @@ import * as WishListSelectors from '../store/selectors/wish-list.selectors';
 export class CountriesComponent implements OnInit {
   // public properties
   vm$: Observable<CountrySummaryViewModel[]> = of([]);
-
-  // private fields
-  private wishList: string[] = [];
 
   // public methods
   constructor(private store: Store) {}
@@ -33,20 +30,14 @@ export class CountriesComponent implements OnInit {
       .subscribe();
 
     // load view models
-    this.vm$ = this.store.select(WishListSelectors.selectWishList).pipe(
-      mergeMap((wishList) => {
-        this.wishList = wishList;
-        return this.store.select(
-          CountrySelectors.selectCountrySummaryViewModels(this.wishList)
-        );
-      })
+    this.vm$ = this.store.select(
+      CountrySummarySelectors.selectCountrySummaryViewModels()
     );
   }
 
   onCountrySearchChange(partialName: string) {
     this.vm$ = this.store.select(
-      CountrySelectors.selectCountrySummaryViewModelsByPartialName(
-        this.wishList,
+      CountrySummarySelectors.selectCountrySummaryViewModelsByPartialName(
         partialName
       )
     );
@@ -54,10 +45,7 @@ export class CountriesComponent implements OnInit {
 
   onRegionChange(region: string) {
     this.vm$ = this.store.select(
-      CountrySelectors.selectCountrySummaryViewModelsByRegion(
-        this.wishList,
-        region
-      )
+      CountrySummarySelectors.selectCountrySummaryViewModelsByRegion(region)
     );
   }
 }
