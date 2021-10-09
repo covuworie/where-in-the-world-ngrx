@@ -21,9 +21,7 @@ export class CountriesAndWishListEffects {
   ) {}
   loadWishList$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(
-        CountryAndWishListActions.load,
-      ),
+      ofType(CountryAndWishListActions.load),
       mergeMap(() =>
         this.wishListService.getAll().pipe(
           map((countries) => WishListActions.loadSuccess({ countries })),
@@ -37,7 +35,11 @@ export class CountriesAndWishListEffects {
 
   loadCountries$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(WishListActions.loadFailure, WishListActions.loadSuccess),
+      ofType(
+        CountryActions.load,
+        WishListActions.loadFailure,
+        WishListActions.loadSuccess
+      ),
       mergeMap(() =>
         this.countriesService.getAll().pipe(
           map((countries) => {
