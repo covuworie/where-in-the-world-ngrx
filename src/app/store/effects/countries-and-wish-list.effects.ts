@@ -6,6 +6,7 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { CountriesService } from 'src/app/countries/shared/countries.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
 import * as CountryActions from '../../countries/state/country.actions';
+import * as CountryDetailActions from '../../countries/state/country-detail.actions';
 import * as CountryAndWishListActions from '../actions/countries-and-wish-list.actions';
 import * as CountryReducer from 'src/app/countries/state/country.reducer';
 import * as WishListActions from '../actions/wish-list.actions';
@@ -36,7 +37,7 @@ export class CountriesAndWishListEffects {
   loadCountries$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(
-        CountryActions.load,
+        CountryDetailActions.load,
         WishListActions.loadFailure,
         WishListActions.loadSuccess
       ),

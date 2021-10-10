@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import CountryDetailViewModel from './country-detail-view.model';
-import * as CountryActions from '../state/country.actions';
+import * as CountryDetailActions from '../state/country-detail.actions';
 import * as CountrySelectors from '../state/country.selectors';
 import { ActivatedRoute } from '@angular/router';
 import { filter, tap } from 'rxjs/operators';
@@ -14,7 +14,7 @@ import { filter, tap } from 'rxjs/operators';
 })
 export class CountryDetailComponent implements OnInit {
   // public properties
-  vm$: Observable<CountryDetailViewModel | undefined> = of();
+  vm$: Observable<CountryDetailViewModel | undefined> = of(undefined);
 
   // public methods
   constructor(private route: ActivatedRoute, private store: Store) {}
@@ -25,19 +25,26 @@ export class CountryDetailComponent implements OnInit {
       .select(CountrySelectors.selectTotal)
       .pipe(
         filter((total) => total === 0),
-        tap(() => this.store.dispatch(CountryActions.load()))
+        tap(() => this.store.dispatch(CountryDetailActions.load()))
       )
       .subscribe();
 
     const path = this.route.snapshot.paramMap.get('name')!;
     const commonName = path.replace(/-/g, ' ');
 
-    this.vm$ = this.store.select(
-      CountrySelectors.selectCountryDetailViewModel(commonName)
-    );
-
-    if (this.vm$ === undefined) {
-      // dispatch action then issue side effect to navigate
-    }
+    this.store
+      .select(CountrySelectors.selectCommonNameExists(commonName))
+      .pipe(
+        tap((nameExists) => {
+          if (!nameExists) {
+            this.store.dispatch(CountryDetailActions.countryNotFoundInStore());
+          } else {
+            this.vm$ = this.store.select(
+              CountrySelectors.selectCountryDetailViewModel(commonName)
+            );
+          }
+        })
+      )
+      .subscribe();
   }
 }

@@ -11,6 +11,14 @@ export const selectAllCountries = createSelector(
   CountryReducer.selectAll
 );
 
+export const selectCommonNames = createSelector(
+  selectAllCountries,
+  (countries) => countries.map((country) => country.name.common)
+);
+
+export const selectCommonNameExists = (commonName: string) =>
+  createSelector(selectCommonNames, (names) => names.includes(commonName));
+
 export const selectTotal = createSelector(
   selectCountriesState,
   CountryReducer.selectTotal
