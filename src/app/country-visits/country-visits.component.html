@@ -1,7 +1,12 @@
-<main>
+<main *ngIf="vm$ | async as vm">
   <br />
-  <form *ngFor="let countryVisit of countryVisits">
-    <app-country-visit [countryVisit]="countryVisit"></app-country-visit>
+  <form *ngFor="let countryVisit of vm">
+    <app-country-visit
+      [countryVisit]="countryVisit"
+      [validCountryNames]="validCountryNames"
+    ></app-country-visit>
   </form>
-  <button type="button"><fa-icon [icon]="faPlus"></fa-icon> Add</button>
+  <button type="button" (click)="onAddVisit()">
+    <fa-icon [icon]="faPlus"></fa-icon> Add
+  </button>
 </main>
