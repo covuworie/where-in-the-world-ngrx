@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
-import CountryVisitViewModel from './country-visit/country-visit-view.model';
+import * as CountryVisitActions from './state/country-visit.actions';
+import * as CountryVisitSelectors from './state/country-visit.selectors';
 import * as CountrySelectors from '../countries/state/country.selectors';
-import { tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
+import CountryVisit from './shared/country-visit.model';
+import { FormBuilder } from '@angular/forms';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-countries-visited',
@@ -13,24 +17,53 @@ import { Observable, of } from 'rxjs';
 })
 export class CountryVisitsComponent implements OnInit {
   // public properties
-  vm$: Observable<CountryVisitViewModel[]> = of([
-    { year: 2000, country: 'France', duration: 15 },
-    { year: 2010, country: 'Germany', duration: 10 },
-  ]);
   faPlus = faPlus;
   validCountryNames: string[] = [];
+  visits = this.fb.array([]);
+  vm$: Observable<CountryVisit[]> = of([]);
 
   // public methods
-  constructor(private store: Store) {}
+  constructor(private store: Store, private fb: FormBuilder) {}
 
   ngOnInit() {
-    // make sure countries list is loaded
+    // load country visits if not in store
+    this.store
+      .select(CountryVisitSelectors.selectTotal)
+      .pipe(
+        filter((total) => total === 0),
+        tap(() => this.store.dispatch(CountryVisitActions.load()))
+      )
+      .subscribe();
+
+    // set country names for validation
     this.store
       .select(CountrySelectors.selectCommonNames)
       .pipe(
         tap((validCountryNames) => (this.validCountryNames = validCountryNames))
       );
+
+    // load view models
+    this.vm$ = this.store.select(CountryVisitSelectors.selectAllCountryVisits);
   }
 
-  onAddVisit() {}
+  onAddVisit() {
+    this.store.dispatch(
+      CountryVisitActions.add({
+        countryVisit: {
+          id: uuidv4(),
+          year: null,
+          country: null,
+          duration: null,
+        },
+      })
+    );
+  }
+
+  onDelete(id: string) {
+    this.store.dispatch(CountryVisitActions.remove({ id }));
+  }
+
+  onFormChange(countryVisit: CountryVisit) {
+    this.store.dispatch(CountryVisitActions.update({ countryVisit }));
+  }
 }

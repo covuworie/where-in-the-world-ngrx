@@ -4,6 +4,8 @@
     <app-country-visit
       [countryVisit]="countryVisit"
       [validCountryNames]="validCountryNames"
+      (delete)="onDelete($event)"
+      (formChange)="onFormChange($event)"
     ></app-country-visit>
   </form>
   <button type="button" (click)="onAddVisit()">

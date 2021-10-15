@@ -1,4 +1,4 @@
-<fieldset [formGroup]="visit">
+<fieldset [formGroup]="visit" (change)="formChange.emit(visit.value)">
   <legend>Enter Visit</legend>
   <div>
     <label for="year">Year</label>
@@ -30,6 +30,6 @@
     />
   </div>
   <div>
-    <button type="button">Delete</button>
+    <button type="button" (click)="delete.emit(visit.value.id)">Delete</button>
   </div>
 </fieldset>

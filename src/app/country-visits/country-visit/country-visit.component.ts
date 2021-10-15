@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { forbiddenCountryValidator } from 'src/app/countries/shared/forbidden-country.directive';
 import { forbiddenMaxDurationValidator } from 'src/app/countries/shared/max-duration.directive';
 import { YearsService } from 'src/app/countries/shared/years.service';
-import CountryVisitViewModel from './country-visit-view.model';
+import CountryVisit from '../shared/country-visit.model';
 
 @Component({
   selector: 'app-country-visit',
@@ -12,11 +12,14 @@ import CountryVisitViewModel from './country-visit-view.model';
 })
 export class CountryVisitComponent implements OnInit {
   // public properties
-  @Input() countryVisit: CountryVisitViewModel = {
-    year: 0,
-    country: '',
-    duration: 0,
+  @Input() countryVisit: CountryVisit = {
+    id: '',
+    year: null,
+    country: null,
+    duration: null,
   };
+  @Output() delete = new EventEmitter<string>();
+  @Output() formChange = new EventEmitter<CountryVisit>();
   @Input() validCountryNames: string[] = [];
   visit = this.fb.group(this.countryVisit);
 
@@ -40,9 +43,10 @@ export class CountryVisitComponent implements OnInit {
   }
 
   // private methods
-  private setFormControls(visit: CountryVisitViewModel) {
+  private setFormControls(visit: CountryVisit) {
     this.visit = this.fb.group(
       {
+        id: visit.id,
         year: [
           visit.year,
           [
