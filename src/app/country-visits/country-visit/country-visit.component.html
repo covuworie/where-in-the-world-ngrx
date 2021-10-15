@@ -7,7 +7,11 @@
       name="year"
       autocomplete="off"
       formControlName="year"
+      (blur)="toggleYearDurationValidity()"
     />
+    <span class="help-block help-year" *ngIf="isTouchedAndInvalid('year')"
+      >Must be between {{ minYear }} and {{ currentYear }}.</span
+    >
   </div>
   <div>
     <label for="country">Country</label>
@@ -17,8 +21,17 @@
       placeholder="Search for a country..."
       autocomplete="off"
       formControlName="country"
+      (keyup)="onCountrySearch(countrySearch.value)"
       #countrySearch
     />
+    <ul>
+      <li
+        *ngFor="let country of countriesAutoComplete"
+        (click)="onCountrySelect(country)"
+      >
+        {{ country }}
+      </li>
+    </ul>
   </div>
   <div>
     <label for="duration">Duration (days)</label>
@@ -27,9 +40,17 @@
       name="duration"
       autocomplete="off"
       formControlName="duration"
+      (blur)="toggleYearDurationValidity()"
     />
+    <span
+      class="help-block help-duration"
+      *ngIf="isTouchedAndInvalid('duration')"
+      >Must be between 1 and {{ getMaxDuration(visit.value.year) }}.</span
+    >
   </div>
   <div>
-    <button type="button" (click)="delete.emit(visit.value.id)">Delete</button>
+    <button type="button" class="delete" (click)="delete.emit(visit.value.id)">
+      Delete
+    </button>
   </div>
 </fieldset>

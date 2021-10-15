@@ -23,6 +23,9 @@ export class CountryVisitComponent implements OnInit {
   @Input() validCountryNames: string[] = [];
   visit = this.fb.group(this.countryVisit);
 
+  // private properties
+  countriesAutoComplete: string[] = [];
+
   // public methods
   constructor(private fb: FormBuilder) {}
 
@@ -38,8 +41,51 @@ export class CountryVisitComponent implements OnInit {
     return YearsService.minYear;
   }
 
+  isTouchedAndInvalid(controlName: string) {
+    return (
+      this.visit.get(controlName)!.touched &&
+      !this.visit.get(controlName)!.valid
+    );
+  }
+
   ngOnInit() {
     this.setFormControls(this.countryVisit);
+    // this hack to retrigger validation is not good
+    this.visit.markAllAsTouched();
+  }
+
+  onCountrySearch(partialName: string) {
+    this.countriesAutoComplete = this.validCountryNames.filter((name) =>
+      name.toLowerCase().includes(partialName.toLowerCase())
+    );
+  }
+
+  onCountrySelect(name: string) {
+    this.visit.patchValue({ country: name });
+    this.countriesAutoComplete = [];
+    this.formChange.emit(this.visit.value);
+  }
+
+  toggleYearDurationValidity() {
+    if (this.visit.errors === null) {
+      if (this.visit.get('year')!.hasError('forbiddenMaxDuration')) {
+        this.visit.get('year')!.setErrors(null);
+      }
+
+      if (this.visit.get('duration')!.hasError('forbiddenMaxDuration')) {
+        this.visit.get('duration')!.setErrors(null);
+      }
+
+      return;
+    }
+
+    const errors = this.visit.errors as {};
+    if (!errors.hasOwnProperty('forbiddenMaxDuration')) {
+      return;
+    }
+
+    this.visit.get('year')!.setErrors(errors);
+    this.visit.get('duration')!.setErrors(errors);
   }
 
   // private methods

@@ -1,0 +1,18 @@
+$grid-gap: 40rem;
+
+main {
+  margin: $grid-gap;
+}
+
+.add {
+  padding: 10rem;
+  color: var(--color-primary);
+  background-color: inherit;
+  font-size: 20rem;
+  border: none;
+  margin-bottom: 40rem;
+
+  &:hover {
+    background-color: var(--color-dull);
+  }
+}

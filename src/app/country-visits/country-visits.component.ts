@@ -40,7 +40,8 @@ export class CountryVisitsComponent implements OnInit {
       .select(CountrySelectors.selectCommonNames)
       .pipe(
         tap((validCountryNames) => (this.validCountryNames = validCountryNames))
-      );
+      )
+      .subscribe();
 
     // load view models
     this.vm$ = this.store.select(CountryVisitSelectors.selectAllCountryVisits);
