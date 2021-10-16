@@ -5,13 +5,11 @@ import * as WishListActions from '../../store/actions/wish-list.actions';
 export const wishListFeatureKey = 'wishList';
 
 export interface State {
-  isLoaded: boolean;
   names: string[];
   error: HttpErrorResponse | undefined;
 }
 
 export const initialState: State = {
-  isLoaded: false,
   names: [],
   error: undefined,
 };
@@ -41,7 +39,6 @@ export const reducer = createReducer(
   on(WishListActions.loadFailure, (state, { error }): State => {
     return {
       ...state,
-      isLoaded: false,
       error,
     };
   }),
@@ -49,7 +46,6 @@ export const reducer = createReducer(
     const names = action.countries.map((country) => country.id);
     return {
       ...state,
-      isLoaded: true,
       names: [...names],
     };
   }),

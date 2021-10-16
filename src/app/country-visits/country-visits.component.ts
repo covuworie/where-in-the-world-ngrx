@@ -27,13 +27,7 @@ export class CountryVisitsComponent implements OnInit {
 
   ngOnInit() {
     // load country visits if not in store
-    this.store
-      .select(CountryVisitSelectors.selectTotal)
-      .pipe(
-        filter((total) => total === 0),
-        tap(() => this.store.dispatch(CountryVisitActions.load()))
-      )
-      .subscribe();
+    this.store.dispatch(CountryVisitActions.load());
 
     // set country names for validation
     this.store

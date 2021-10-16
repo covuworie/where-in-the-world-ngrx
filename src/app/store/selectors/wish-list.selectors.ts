@@ -5,11 +5,6 @@ export const selectWishListState = createFeatureSelector<fromWishList.State>(
   fromWishList.wishListFeatureKey
 );
 
-export const selectIsLoaded = createSelector(
-  selectWishListState,
-  (wishList) => wishList.isLoaded
-);
-
 export const selectWishList = createSelector(
   selectWishListState,
   (wishList) => wishList.names

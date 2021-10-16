@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { catchError, filter, map, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { HttpErrorResponse } from '@angular/common/http';
 import { CountryVisitsService } from '../shared/country-visits.service';
 import * as CountryVisitActions from './country-visit.actions';
+import * as CountryVisitSelectors from './country-visit.selectors';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class CountryVisitEffects {
@@ -26,6 +28,11 @@ export class CountryVisitEffects {
   load$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CountryVisitActions.load),
+      // Don't load if already loaded
+      concatLatestFrom(() =>
+        this.store.select(CountryVisitSelectors.selectIsLoaded)
+      ),
+      filter(([_, isLoaded]) => !isLoaded),
       mergeMap(() =>
         this.countryVisitsService.getAll().pipe(
           map((countryVisits) =>
@@ -69,6 +76,7 @@ export class CountryVisitEffects {
 
   constructor(
     private actions$: Actions,
-    private countryVisitsService: CountryVisitsService
+    private countryVisitsService: CountryVisitsService,
+    private store: Store
   ) {}
 }

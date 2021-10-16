@@ -11,7 +11,7 @@ export const selectAllCountryVisits = createSelector(
   CountryVisitReducer.selectAll
 );
 
-export const selectTotal = createSelector(
+export const selectIsLoaded = createSelector(
   selectCountryVisitsState,
-  CountryVisitReducer.selectTotal
+  (state) => state.isLoaded
 );

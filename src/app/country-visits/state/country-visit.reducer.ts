@@ -8,6 +8,7 @@ export const countryVisitsFeatureKey = 'countryVisits';
 
 export interface State extends EntityState<CountryVisit> {
   // additional entities state properties
+  isLoaded: boolean;
   error: HttpErrorResponse | undefined;
 }
 
@@ -16,6 +17,7 @@ export const adapter: EntityAdapter<CountryVisit> =
 
 export const initialState: State = adapter.getInitialState({
   // additional entity state properties
+  isLoaded: false,
   error: undefined,
 });
 
@@ -29,6 +31,7 @@ export const reducer = createReducer(
     (state, action): State => {
       return {
         ...state,
+        isLoaded: false,
         error: action.error,
       };
     }
@@ -43,7 +46,7 @@ export const reducer = createReducer(
     adapter.removeOne(action.id, state)
   ),
   on(CountryVisitActions.loadSuccess, (state, action) =>
-    adapter.setAll(action.countryVisits, state)
+    adapter.setAll(action.countryVisits, { ...state, isLoaded: true })
   )
 );
 

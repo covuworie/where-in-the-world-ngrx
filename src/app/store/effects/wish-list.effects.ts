@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
-import { catchError, filter, map, mergeMap } from 'rxjs/operators';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import * as WishListActions from '../actions/wish-list.actions';
-import * as WishListSelectors from '../selectors/wish-list.selectors';
 import { HttpErrorResponse } from '@angular/common/http';
 import { WishListService } from 'src/app/wish-list/shared/wish-list.service';
 import { Store } from '@ngrx/store';
@@ -28,11 +27,7 @@ export class WishListEffects {
   load$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(WishListActions.load),
-      // Don't load if already loaded
-      concatLatestFrom(() =>
-        this.store.select(WishListSelectors.selectIsLoaded)
-      ),
-      filter(([_, isLoaded]) => !isLoaded),
+      // loaded from header component so only loaded once
       mergeMap(() =>
         this.wishListService.getAll().pipe(
           map((countries) => WishListActions.loadSuccess({ countries })),

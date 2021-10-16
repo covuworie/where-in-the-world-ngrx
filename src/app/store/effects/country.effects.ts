@@ -18,6 +18,7 @@ export class CountriesEffects {
   load$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(CountryActions.load),
+      // loaded from ROOT_EFFECTS_INIT so only loaded once
       mergeMap(() =>
         this.countriesService.getAll().pipe(
           map((countries) => {
