@@ -7,8 +7,6 @@ import { CountryDetailComponent } from './country-detail/country-detail.componen
 import { SharedModule } from '../shared/shared.module';
 import { CountrySearchComponent } from './country-search/country-search.component';
 import { RegionFilterComponent } from './region-filter/region-filter.component';
-import { StoreModule } from '@ngrx/store';
-import * as fromCountry from './state/country.reducer';
 
 @NgModule({
   declarations: [
@@ -17,14 +15,6 @@ import * as fromCountry from './state/country.reducer';
     CountrySearchComponent,
     RegionFilterComponent,
   ],
-  imports: [
-    CommonModule,
-    CountriesRoutingModule,
-    SharedModule,
-    StoreModule.forFeature(
-      fromCountry.countriesFeatureKey,
-      fromCountry.reducer
-    ),
-  ],
+  imports: [CommonModule, CountriesRoutingModule, SharedModule],
 })
 export class CountriesModule {}

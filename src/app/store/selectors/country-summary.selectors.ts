@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import CountrySummaryViewModel from 'src/app/shared/country-summary/country-summary-view.model';
-import * as CountrySelectors from '../../countries/state/country.selectors';
+import * as CountrySelectors from './country.selectors';
 import * as WishListSelectors from './wish-list.selectors';
 
 // View Models

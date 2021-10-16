@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { Country } from '../shared/country.model';
-import * as CountryActions from './country.actions';
+import { Country } from '../../countries/shared/country.model';
+import * as CountryActions from '../actions/country.actions';
 import { HttpErrorResponse } from '@angular/common/http';
 
 export const countriesFeatureKey = 'countries';

@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import CountryDetailViewModel from '../country-detail/country-detail-view.model';
-import * as CountryReducer from '../state/country.reducer';
+import CountryDetailViewModel from '../../countries/country-detail/country-detail-view.model';
+import * as CountryReducer from '../reducers/country.reducer';
 
 export const selectCountriesState = createFeatureSelector<CountryReducer.State>(
   CountryReducer.countriesFeatureKey

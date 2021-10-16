@@ -1,6 +1,6 @@
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from '../../environments/environment';
-import * as fromCountry from '../countries/state/country.reducer';
+import * as fromCountry from './reducers/country.reducer';
 import * as fromCountryVisit from '../country-visits/state/country-visit.reducer';
 import * as fromWishList from './reducers/wish-list.reducer';
 

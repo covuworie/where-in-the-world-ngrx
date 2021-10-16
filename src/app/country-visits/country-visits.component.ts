@@ -3,7 +3,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import * as CountryVisitActions from './state/country-visit.actions';
 import * as CountryVisitSelectors from './state/country-visit.selectors';
-import * as CountrySelectors from '../countries/state/country.selectors';
+import * as CountrySelectors from '../store/selectors/country.selectors';
 import { filter, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import CountryVisit from './shared/country-visit.model';

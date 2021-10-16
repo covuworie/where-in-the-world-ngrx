@@ -5,42 +5,19 @@ import { of } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { CountriesService } from 'src/app/countries/shared/countries.service';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
-import * as CountryActions from '../../countries/state/country.actions';
-import * as CountryDetailActions from '../../countries/state/country-detail.actions';
-import * as CountryAndWishListActions from '../actions/countries-and-wish-list.actions';
-import * as CountryReducer from 'src/app/countries/state/country.reducer';
-import * as WishListActions from '../actions/wish-list.actions';
-import { WishListService } from 'src/app/wish-list/shared/wish-list.service';
+import * as CountryActions from '../actions/country.actions';
+import * as CountryReducer from 'src/app/store/reducers/country.reducer';
 
 @Injectable()
-export class CountriesAndWishListEffects {
+export class CountriesEffects {
   // public methods
   constructor(
     private actions$: Actions,
-    private countriesService: CountriesService,
-    private wishListService: WishListService
+    private countriesService: CountriesService
   ) {}
-  loadWishList$ = createEffect(() => {
+  load$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(CountryAndWishListActions.load),
-      mergeMap(() =>
-        this.wishListService.getAll().pipe(
-          map((countries) => WishListActions.loadSuccess({ countries })),
-          catchError((error: HttpErrorResponse) =>
-            of(WishListActions.loadFailure({ error }))
-          )
-        )
-      )
-    );
-  });
-
-  loadCountries$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(
-        CountryDetailActions.load,
-        WishListActions.loadFailure,
-        WishListActions.loadSuccess
-      ),
+      ofType(CountryActions.load),
       mergeMap(() =>
         this.countriesService.getAll().pipe(
           map((countries) => {

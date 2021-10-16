@@ -1,7 +1,8 @@
-import { createAction, props } from '@ngrx/store';
-
-import { Country } from '../shared/country.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { createAction, props } from '@ngrx/store';
+import { Country } from 'src/app/countries/shared/country.model';
+
+export const load = createAction('[Countries API] Load');
 
 export const loadFailure = createAction(
   '[Countries API] Load Failure',

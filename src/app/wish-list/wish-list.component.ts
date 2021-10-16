@@ -3,8 +3,8 @@ import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import CountrySummaryViewModel from '../shared/country-summary/country-summary-view.model';
-import * as CountryAndWishListActions from '../store/actions/countries-and-wish-list.actions';
 import * as CountrySummarySelectors from '../store/selectors/country-summary.selectors';
+import * as WishListActions from '../store/actions/wish-list.actions';
 import * as WishListSelectors from '../store/selectors/wish-list.selectors';
 
 @Component({
@@ -26,7 +26,7 @@ export class WishListComponent implements OnInit {
       .pipe(
         tap((isLoaded) => {
           if (!isLoaded) {
-            this.store.dispatch(CountryAndWishListActions.load());
+            this.store.dispatch(WishListActions.load());
           }
         })
       )

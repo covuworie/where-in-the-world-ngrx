@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { LocalStorageService } from 'src/app/shared/local-storage.service';
-import * as CountryReducer from '../state/country.reducer';
+import * as CountryReducer from '../../store/reducers/country.reducer';
 import { Country } from './country.model';
 import { RestCountriesService } from './rest-countries.service';
 
