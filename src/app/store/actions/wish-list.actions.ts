@@ -16,7 +16,7 @@ export const addFailure = createAction(
   props<{ error: HttpErrorResponse }>()
 );
 
-export const load = createAction('[Wish List Component] Load');
+export const load = createAction('[Header Component] Load Wish List');
 
 export const loadFailure = createAction(
   '[Wish List API] Load Failure',

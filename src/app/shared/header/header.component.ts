@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   faBars,
   faHeart,
@@ -9,22 +9,26 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import HeaderViewModel from './header-view.model';
 import * as HeaderSelectors from '../../store/selectors/header.selectors';
+import * as WishListActions from '../../store/actions/wish-list.actions';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   // public properties
   faBars = faBars;
   faHeart = faHeart;
   faMoon = faMoon;
   faSun = faSun;
-  vm$: Observable<HeaderViewModel> = this.store.select(
-    HeaderSelectors.selectHeaderViewModel
-  );
+  vm$: Observable<HeaderViewModel> = new Observable();
 
   // public methods
   constructor(private store: Store) {}
+
+  ngOnInit() {
+    this.store.dispatch(WishListActions.load());
+    this.vm$ = this.store.select(HeaderSelectors.selectHeaderViewModel);
+  }
 }
