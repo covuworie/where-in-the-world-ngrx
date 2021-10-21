@@ -1,14 +1,14 @@
-<main *ngIf="vm$ | async as vm">
+<main>
   <br />
-  <form *ngFor="let countryVisit of vm">
+  <form *ngFor="let visit of visitGroups; let i = index">
     <app-country-visit
-      [countryVisit]="countryVisit"
+      [visit]="visit"
       [validCountryNames]="validCountryNames"
-      (delete)="onDelete($event)"
-      (formChange)="onFormChange($event)"
+      (delete)="onDelete(i)"
+      (formChange)="onFormChange(i)"
     ></app-country-visit>
   </form>
-  <button type="button" class="add" (click)="onAddVisit()">
+  <button type="button" class="add" (click)="onAdd()">
     <fa-icon [icon]="faPlus"></fa-icon> Add
   </button>
 </main>

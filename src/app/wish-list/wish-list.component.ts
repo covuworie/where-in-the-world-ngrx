@@ -18,7 +18,7 @@ export class WishListComponent implements OnInit {
 
   ngOnInit() {
     this.vm$ = this.store.select(
-      CountrySummarySelectors.selectCountrySummaryViewModelsByNames()
+      CountrySummarySelectors.selectCountrySummaryViewModelsByNames
     );
   }
 }

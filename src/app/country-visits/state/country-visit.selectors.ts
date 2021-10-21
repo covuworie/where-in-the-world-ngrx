@@ -11,6 +11,11 @@ export const selectAllCountryVisits = createSelector(
   CountryVisitReducer.selectAll
 );
 
+export const selectExistsInStore = (id: string) =>
+  createSelector(selectCountryVisitsState, (state) =>
+    (state.ids as string[]).includes(id)
+  );
+
 export const selectIsLoaded = createSelector(
   selectCountryVisitsState,
   (state) => state.isLoaded

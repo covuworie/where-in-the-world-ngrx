@@ -47,13 +47,12 @@ export const selectCountrySummaryViewModelsByPartialName = (
       )
   );
 
-export const selectCountrySummaryViewModelsByNames = () =>
-  createSelector(
-    selectCountrySummaryViewModels,
-    WishListSelectors.selectWishList,
-    (countrySummaryViewModels, wishList) => {
-      return countrySummaryViewModels.filter((country) =>
-        wishList.includes(country.name)
-      );
-    }
-  );
+export const selectCountrySummaryViewModelsByNames = createSelector(
+  selectCountrySummaryViewModels,
+  WishListSelectors.selectWishList,
+  (countrySummaryViewModels, wishList) => {
+    return countrySummaryViewModels.filter((country) =>
+      wishList.includes(country.name)
+    );
+  }
+);

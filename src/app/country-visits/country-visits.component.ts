@@ -4,11 +4,14 @@ import { Store } from '@ngrx/store';
 import * as CountryVisitActions from './state/country-visit.actions';
 import * as CountryVisitSelectors from './state/country-visit.selectors';
 import * as CountrySelectors from '../store/selectors/country.selectors';
-import { filter, tap } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import CountryVisit from './shared/country-visit.model';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
+import { forbiddenCountryValidator } from '../countries/shared/forbidden-country.directive';
+import { forbiddenMaxDurationValidator } from '../countries/shared/max-duration.directive';
+import { YearsService } from '../countries/shared/years.service';
 
 @Component({
   selector: 'app-countries-visited',
@@ -39,26 +42,93 @@ export class CountryVisitsComponent implements OnInit {
 
     // load view models
     this.vm$ = this.store.select(CountryVisitSelectors.selectAllCountryVisits);
+
+    // set in form
+    this.vm$
+      .pipe(
+        filter(() => this.visits.length === 0),
+        map((countryVisits) =>
+          countryVisits.forEach((countryVisit) =>
+            this.setFormControls(countryVisit)
+          )
+        )
+      )
+      .subscribe();
   }
 
-  onAddVisit() {
-    this.store.dispatch(
-      CountryVisitActions.add({
-        countryVisit: {
-          id: uuidv4(),
-          year: null,
-          country: null,
-          duration: null,
-        },
-      })
-    );
+  onAdd() {
+    this.setFormControls({
+      id: uuidv4(),
+      year: null,
+      country: null,
+      duration: null,
+    });
   }
 
-  onDelete(id: string) {
+  onDelete(index: number) {
+    const id = this.visitGroups[index].value.id;
     this.store.dispatch(CountryVisitActions.remove({ id }));
+    this.visits.removeAt(index);
   }
 
-  onFormChange(countryVisit: CountryVisit) {
-    this.store.dispatch(CountryVisitActions.update({ countryVisit }));
+  onFormChange(index: number) {
+    console.log('form change');
+
+    if (!this.visitGroups[index].valid) {
+      console.log(this.visitGroups[index]);
+      return;
+    }
+
+    const countryVisit = this.visitGroups[index].value as CountryVisit;
+    const id = this.visitGroups[index].value.id as string;
+
+    this.store
+      .select(CountryVisitSelectors.selectExistsInStore(id))
+      .pipe(
+        tap((idInStore) => {
+          if (idInStore) {
+            this.store.dispatch(CountryVisitActions.update({ countryVisit }));
+          } else {
+            this.store.dispatch(CountryVisitActions.add({ countryVisit }));
+          }
+        })
+      )
+      .subscribe();
+  }
+
+  get visitGroups() {
+    return this.visits.controls as FormGroup[];
+  }
+
+  // private methods
+  get currentYear() {
+    return YearsService.currentYear;
+  }
+
+  private setFormControls(visit: CountryVisit) {
+    const group = this.fb.group(
+      {
+        id: visit.id,
+        year: [
+          visit.year,
+          [
+            Validators.required,
+            Validators.min(this.currentYear - 125),
+            Validators.max(this.currentYear),
+          ],
+        ],
+        country: [
+          visit.country,
+          [
+            Validators.required,
+            forbiddenCountryValidator(this.validCountryNames),
+          ],
+        ],
+        duration: [visit.duration, [Validators.required, Validators.min(1)]],
+      },
+      { validators: [forbiddenMaxDurationValidator] }
+    );
+
+    this.visits.push(group);
   }
 }
