@@ -1,11 +1,16 @@
 <header *ngIf="vm$ | async as vm">
   <div>
     <a routerLink="/" class>Where in the world?</a>
-    <button *ngIf="true; else darkTemplate">
-      <fa-icon [icon]="faMoon"></fa-icon><span>Dark Mode</span>
+    <button
+      *ngIf="vm.theme === 'theme-light'; else darkTemplate"
+      (click)="changeTheme('theme-dark')"
+    >
+      <fa-icon [icon]="faMoon" class="moon"></fa-icon><span>Dark Mode</span>
     </button>
     <ng-template #darkTemplate>
-      <button><fa-icon [icon]="faSun"></fa-icon><span>Light Mode</span></button>
+      <button (click)="changeTheme('theme-light')">
+        <fa-icon [icon]="faSun" class="sun"></fa-icon><span>Light Mode</span>
+      </button>
     </ng-template>
   </div>
   <nav>

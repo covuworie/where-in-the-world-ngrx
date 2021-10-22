@@ -14,6 +14,7 @@ import { WishListEffects } from './store/effects/wish-list.effects';
 import { CountriesEffects } from './store/effects/country.effects';
 import { RouterEffects } from './store/effects/router.effects';
 import { InitEffects } from './store/effects/init.effects';
+import { UserSettingsEffects } from './store/effects/user-settings.effects';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,6 +34,7 @@ import { InitEffects } from './store/effects/init.effects';
       CountriesEffects,
       InitEffects,
       RouterEffects,
+      UserSettingsEffects,
       WishListEffects,
     ]),
   ],

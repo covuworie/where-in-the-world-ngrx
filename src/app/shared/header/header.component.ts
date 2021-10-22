@@ -9,7 +9,9 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import HeaderViewModel from './header-view.model';
 import * as HeaderSelectors from '../../store/selectors/header.selectors';
+import * as UserSettingsActions from '../../store/actions/user-settings.actions';
 import * as WishListActions from '../../store/actions/wish-list.actions';
+import { Theme } from '../theme/theme.model';
 
 @Component({
   selector: 'app-header',
@@ -25,6 +27,10 @@ export class HeaderComponent implements OnInit {
   vm$: Observable<HeaderViewModel> = new Observable();
 
   // public methods
+  changeTheme(theme: Theme) {
+    this.store.dispatch(UserSettingsActions.changeTheme({ theme }));
+  }
+
   constructor(private store: Store) {}
 
   ngOnInit() {

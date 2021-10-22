@@ -7,6 +7,7 @@ import {
 } from '@ngrx/effects';
 import { map } from 'rxjs/operators';
 import * as CountryActions from '../actions/country.actions';
+import * as UserSettingsActions from '../actions/user-settings.actions';
 
 @Injectable()
 export class InitEffects {
@@ -17,6 +18,13 @@ export class InitEffects {
     return this.actions$.pipe(
       ofType(ROOT_EFFECTS_INIT),
       map(() => CountryActions.load())
+    );
+  });
+
+  loadTheme$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ROOT_EFFECTS_INIT),
+      map(() => UserSettingsActions.load())
     );
   });
 }
