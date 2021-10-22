@@ -38,6 +38,11 @@ export class CountryVisitComponent {
   }
 
   onCountrySearch(partialName: string) {
+    if (this.validCountryNames.includes(partialName)) {
+      this.countriesAutoComplete = [];
+      return;
+    }
+
     this.countriesAutoComplete = this.validCountryNames.filter((name) =>
       name.toLowerCase().includes(partialName.toLowerCase())
     );
