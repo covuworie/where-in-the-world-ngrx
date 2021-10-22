@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import * as CountryVisitActions from './state/country-visit.actions';
 import * as CountryVisitSelectors from './state/country-visit.selectors';
 import * as CountrySelectors from '../store/selectors/country.selectors';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map, take, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import CountryVisit from './shared/country-visit.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -72,8 +72,6 @@ export class CountryVisitsComponent implements OnInit {
   }
 
   onFormChange(index: number) {
-    console.log('form change');
-
     if (!this.visitGroups[index].valid) {
       console.log(this.visitGroups[index]);
       return;
@@ -85,6 +83,7 @@ export class CountryVisitsComponent implements OnInit {
     this.store
       .select(CountryVisitSelectors.selectExistsInStore(id))
       .pipe(
+        take(1),
         tap((idInStore) => {
           if (idInStore) {
             this.store.dispatch(CountryVisitActions.update({ countryVisit }));

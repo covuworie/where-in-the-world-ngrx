@@ -1,12 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
-import { catchError, filter, map, mergeMap } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  skipWhile,
+  switchMap,
+} from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { HttpErrorResponse } from '@angular/common/http';
 import { CountryVisitsService } from '../shared/country-visits.service';
 import * as CountryVisitActions from './country-visit.actions';
 import * as CountryVisitSelectors from './country-visit.selectors';
+import * as CountrySelectors from '../../store/selectors/country.selectors';
 import { Store } from '@ngrx/store';
 
 @Injectable()
@@ -33,13 +41,27 @@ export class CountryVisitEffects {
         this.store.select(CountryVisitSelectors.selectIsLoaded)
       ),
       filter(([_, isLoaded]) => !isLoaded),
-      mergeMap(() =>
-        this.countryVisitsService.getAll().pipe(
-          map((countryVisits) =>
-            CountryVisitActions.loadSuccess({ countryVisits })
-          ),
-          catchError((error: HttpErrorResponse) =>
-            of(CountryVisitActions.loadFailure({ error }))
+      // The countries data must be loaded before the country visits data so
+      // that the validation of countries works correctly in the country visits
+      // component. So we follow the methodology described here:
+      // https://dev.to/this-is-angular/manipulating-ngrx-effects-400d ...
+      // Do not handle the action straight away, switch to another Observable
+      // which selects country "total" data from the store. If the total is
+      // zero meaning the countries data is not in the store the pipeline will
+      // wait. But when the countries data is finally available then proceed
+      // with loading the country visits data into the store.
+      switchMap(() =>
+        this.store.select(CountrySelectors.selectTotal).pipe(
+          skipWhile((commonNames) => commonNames === 0),
+          mergeMap(() =>
+            this.countryVisitsService.getAll().pipe(
+              map((countryVisits) =>
+                CountryVisitActions.loadSuccess({ countryVisits })
+              ),
+              catchError((error: HttpErrorResponse) =>
+                of(CountryVisitActions.loadFailure({ error }))
+              )
+            )
           )
         )
       )
