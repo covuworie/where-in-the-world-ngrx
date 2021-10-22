@@ -66,14 +66,16 @@ export class CountryVisitsComponent implements OnInit {
   }
 
   onDelete(index: number) {
-    const id = this.visitGroups[index].value.id;
-    this.store.dispatch(CountryVisitActions.remove({ id }));
+    if (this.visitGroups[index].valid) {
+      const id = this.visitGroups[index].value.id;
+      this.store.dispatch(CountryVisitActions.remove({ id }));
+    }
+
     this.visits.removeAt(index);
   }
 
   onFormChange(index: number) {
-    if (!this.visitGroups[index].valid) {
-      console.log(this.visitGroups[index]);
+    if (this.visitGroups[index].invalid) {
       return;
     }
 
