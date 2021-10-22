@@ -1,6 +1,7 @@
 <div>
   <fa-icon [icon]="faSearch"></fa-icon>
   <input
+    class="search-country"
     type="text"
     placeholder="Search for a country..."
     (keyup)="countrySearchChange.emit(countrySearch.value)"
