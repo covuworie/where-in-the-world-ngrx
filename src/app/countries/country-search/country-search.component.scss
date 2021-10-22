@@ -1,9 +1,5 @@
 $grid-gap: 40rem;
 
-.search-country {
-  text-indent: $grid-gap;
-}
-
 input[type="text"] {
   padding: 9rem 0 9rem 9rem;
   width: 400rem;
@@ -25,4 +21,8 @@ fa-icon {
   position: absolute;
   padding: 10rem;
   color: var(--color-primary);
+}
+
+.search-country {
+  text-indent: $grid-gap;
 }

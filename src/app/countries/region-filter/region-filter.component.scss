@@ -1,0 +1,26 @@
+input[type="radio"] {
+  display: none;
+
+  &:checked + label {
+    background-color: var(--color-dull);
+  }
+
+  &:hover + label {
+    background-color: var(--color-dull);
+  }
+}
+
+label {
+  display: inline-block;
+  position: relative;
+  background-color: var(--theme);
+  width: 150rem;
+  padding: 10rem;
+  font-size: 14rem;
+  cursor: pointer;
+
+  span {
+    position: absolute;
+    right: 10rem;
+  }
+}

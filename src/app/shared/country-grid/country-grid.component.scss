@@ -6,6 +6,8 @@ $grid-gap: 40rem;
   grid-auto-rows: 375px;
   column-gap: $grid-gap;
   row-gap: $grid-gap;
+  margin-top: $grid-gap;
+  margin-bottom: $grid-gap;
 }
 
 .country {
