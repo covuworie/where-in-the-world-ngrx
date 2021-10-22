@@ -18,11 +18,12 @@ export class CountryDetailComponent implements OnInit {
   constructor(private route: ActivatedRoute, private store: Store) {}
 
   ngOnInit() {
-    const path = this.route.snapshot.paramMap.get('name')!;
-    const commonName = path.replace(/-/g, ' ');
-
-    this.vm$ = this.store.select(
-      CountrySelectors.selectCountryDetailViewModel(commonName)
-    );
+    this.route.paramMap.subscribe((params) => {
+      const path = params.get('name')!;
+      const commonName = path.replace(/-/g, ' ');
+      this.vm$ = this.store.select(
+        CountrySelectors.selectCountryDetailViewModel(commonName)
+      );
+    });
   }
 }
