@@ -21,16 +21,12 @@ export class CountriesEffects {
       // loaded from ROOT_EFFECTS_INIT so only loaded once
       mergeMap(() =>
         this.countriesService.getAll().pipe(
-          map((countries) => {
-            return CountryActions.loadSuccess({
-              countries,
-            });
-          }),
+          map((countries) => CountryActions.loadSuccess({ countries })),
           tap((countries) => {
-            const iscountriesInLocalStorage =
+            const isCountriesNotInLocalStorage =
               localStorage.getItem(CountryReducer.countriesFeatureKey) !==
               undefined;
-            if (!iscountriesInLocalStorage) {
+            if (isCountriesNotInLocalStorage) {
               LocalStorageService.setItemWithExpiry(
                 CountryReducer.countriesFeatureKey,
                 JSON.stringify(countries),
