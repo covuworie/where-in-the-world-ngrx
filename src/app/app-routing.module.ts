@@ -1,12 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
+import { SeoService } from './shared/seo.service';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: '/countries',
     pathMatch: 'full',
+    data: {
+      title: SeoService.appTitle,
+      description:
+        'An application to view details on countries, maintain a list of visited countries and to maintain a wish list of countries you would like to visit.',
+    },
   },
   {
     path: 'countries',
