@@ -52,7 +52,7 @@ export class CountryVisitEffects {
       // with loading the country visits data into the store.
       switchMap(() =>
         this.store.select(CountrySelectors.selectTotal).pipe(
-          skipWhile((commonNames) => commonNames === 0),
+          skipWhile((total) => total === 0),
           mergeMap(() =>
             this.countryVisitsService.getAll().pipe(
               map((countryVisits) =>
