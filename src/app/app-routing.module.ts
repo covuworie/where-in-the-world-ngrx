@@ -3,6 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { SeoService } from './shared/seo.service';
 
+const META_DESCRIPTION =
+  'An application to view details on countries, maintain a list of visited countries and to maintain a wish list of countries you would like to visit.';
+
 const routes: Routes = [
   {
     path: '',
@@ -10,8 +13,7 @@ const routes: Routes = [
     pathMatch: 'full',
     data: {
       title: SeoService.appTitle,
-      description:
-        'An application to view details on countries, maintain a list of visited countries and to maintain a wish list of countries you would like to visit.',
+      description: META_DESCRIPTION,
     },
   },
   {
@@ -34,6 +36,10 @@ const routes: Routes = [
   {
     path: '**',
     component: NotFoundComponent,
+    data: {
+      title: `${SeoService.appTitle} | Page Not Found`,
+      description: META_DESCRIPTION,
+    },
   },
 ];
 

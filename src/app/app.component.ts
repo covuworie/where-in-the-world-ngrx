@@ -41,8 +41,6 @@ export class AppComponent implements OnInit {
   private updateTitleAndDescription(data: Data) {
     const path = this.router.url;
     const country = decodeURIComponent(path.split('/countries/')[1]) || '';
-    // redirect happens when country does not exist so no need to not set the
-    // title and meta tags
 
     const title = (data['title'] as string).replace('{{ country }}', country);
     data['title'] = title;
