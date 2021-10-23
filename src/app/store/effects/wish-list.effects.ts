@@ -6,7 +6,6 @@ import { of } from 'rxjs';
 import * as WishListActions from '../actions/wish-list.actions';
 import { HttpErrorResponse } from '@angular/common/http';
 import { WishListService } from 'src/app/wish-list/shared/wish-list.service';
-import { Store } from '@ngrx/store';
 
 @Injectable()
 export class WishListEffects {
@@ -55,7 +54,6 @@ export class WishListEffects {
 
   constructor(
     private actions$: Actions,
-    private store: Store,
     private wishListService: WishListService
   ) {}
 }
