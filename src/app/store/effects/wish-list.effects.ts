@@ -15,8 +15,10 @@ export class WishListEffects {
       mergeMap(({ name }) =>
         this.wishListService.add(name).pipe(
           map(() => WishListActions.addSuccess({ name })),
-          catchError((error: HttpErrorResponse) =>
-            of(WishListActions.addFailure({ error }))
+          catchError((error: unknown) =>
+            of(
+              WishListActions.addFailure({ error: error as HttpErrorResponse })
+            )
           )
         )
       )
@@ -30,8 +32,10 @@ export class WishListEffects {
       mergeMap(() =>
         this.wishListService.getAll().pipe(
           map((countries) => WishListActions.loadSuccess({ countries })),
-          catchError((error: HttpErrorResponse) =>
-            of(WishListActions.loadFailure({ error }))
+          catchError((error: unknown) =>
+            of(
+              WishListActions.loadFailure({ error: error as HttpErrorResponse })
+            )
           )
         )
       )
@@ -44,8 +48,12 @@ export class WishListEffects {
       mergeMap(({ name }) =>
         this.wishListService.remove(name).pipe(
           map(() => WishListActions.removeSuccess({ name })),
-          catchError((error: HttpErrorResponse) =>
-            of(WishListActions.removeFailure({ error }))
+          catchError((error: unknown) =>
+            of(
+              WishListActions.removeFailure({
+                error: error as HttpErrorResponse,
+              })
+            )
           )
         )
       )

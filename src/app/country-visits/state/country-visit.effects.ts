@@ -25,8 +25,12 @@ export class CountryVisitEffects {
       mergeMap(({ countryVisit }) =>
         this.countryVisitsService.add(countryVisit).pipe(
           map(() => CountryVisitActions.addSuccess({ countryVisit })),
-          catchError((error: HttpErrorResponse) =>
-            of(CountryVisitActions.addFailure({ error }))
+          catchError((error: unknown) =>
+            of(
+              CountryVisitActions.addFailure({
+                error: error as HttpErrorResponse,
+              })
+            )
           )
         )
       )
@@ -58,8 +62,12 @@ export class CountryVisitEffects {
               map((countryVisits) =>
                 CountryVisitActions.loadSuccess({ countryVisits })
               ),
-              catchError((error: HttpErrorResponse) =>
-                of(CountryVisitActions.loadFailure({ error }))
+              catchError((error: unknown) =>
+                of(
+                  CountryVisitActions.loadFailure({
+                    error: error as HttpErrorResponse,
+                  })
+                )
               )
             )
           )
@@ -74,8 +82,12 @@ export class CountryVisitEffects {
       mergeMap(({ id }) =>
         this.countryVisitsService.remove(id).pipe(
           map(() => CountryVisitActions.removeSuccess({ id })),
-          catchError((error: HttpErrorResponse) =>
-            of(CountryVisitActions.removeFailure({ error }))
+          catchError((error: unknown) =>
+            of(
+              CountryVisitActions.removeFailure({
+                error: error as HttpErrorResponse,
+              })
+            )
           )
         )
       )
@@ -88,8 +100,12 @@ export class CountryVisitEffects {
       mergeMap(({ countryVisit }) =>
         this.countryVisitsService.update(countryVisit).pipe(
           map(() => CountryVisitActions.updateSuccess({ countryVisit })),
-          catchError((error: HttpErrorResponse) =>
-            of(CountryVisitActions.updateFailure({ error }))
+          catchError((error: unknown) =>
+            of(
+              CountryVisitActions.updateFailure({
+                error: error as HttpErrorResponse,
+              })
+            )
           )
         )
       )

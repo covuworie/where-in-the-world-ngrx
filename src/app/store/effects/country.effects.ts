@@ -35,8 +35,10 @@ export class CountriesEffects {
               );
             }
           }),
-          catchError((error: HttpErrorResponse) =>
-            of(CountryActions.loadFailure({ error }))
+          catchError((error: unknown) =>
+            of(
+              CountryActions.loadFailure({ error: error as HttpErrorResponse })
+            )
           )
         )
       )
