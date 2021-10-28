@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import * as CountryVisitActions from './state/country-visit.actions';
 import * as CountryVisitSelectors from './state/country-visit.selectors';
 import * as CountrySelectors from '../store/selectors/country.selectors';
-import { filter, map, take, tap } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { filter, take, takeUntil } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
 import CountryVisit from './shared/country-visit.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
@@ -18,15 +18,24 @@ import { YearsService } from '../countries/shared/years.service';
   templateUrl: './country-visits.component.html',
   styleUrls: ['./country-visits.component.scss'],
 })
-export class CountryVisitsComponent implements OnInit {
+export class CountryVisitsComponent implements OnInit, OnDestroy {
   // public properties
   faPlus = faPlus;
   validCountryNames: string[] = [];
   visits = this.fb.array([]);
   vm$: Observable<CountryVisit[]> = of([]);
 
+  // private fields
+  destroy$ = new Subject();
+
   // public methods
   constructor(private store: Store, private fb: FormBuilder) {}
+
+  ngOnDestroy() {
+    // Signal all streams to complete
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   ngOnInit() {
     // load country visits if not in store
@@ -35,10 +44,12 @@ export class CountryVisitsComponent implements OnInit {
     // set country names for validation
     this.store
       .select(CountrySelectors.selectCommonNames)
-      .pipe(
-        tap((validCountryNames) => (this.validCountryNames = validCountryNames))
-      )
-      .subscribe();
+      // Use the takeUntil approach described here for managing subscriptions:
+      // https://blog.briebug.com/blog/when-should-i-unsubscribe-my-subscriptions-in-angular
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (validCountryNames) => (this.validCountryNames = validCountryNames)
+      );
 
     // load view models
     this.vm$ = this.store.select(CountryVisitSelectors.selectAllCountryVisits);
@@ -47,13 +58,13 @@ export class CountryVisitsComponent implements OnInit {
     this.vm$
       .pipe(
         filter(() => this.visits.length === 0),
-        map((countryVisits) =>
-          countryVisits.forEach((countryVisit) =>
-            this.setFormControls(countryVisit)
-          )
-        )
+        takeUntil(this.destroy$)
       )
-      .subscribe();
+      .subscribe((countryVisits) =>
+        countryVisits.forEach((countryVisit) =>
+          this.setFormControls(countryVisit)
+        )
+      );
   }
 
   onAdd() {
@@ -85,16 +96,15 @@ export class CountryVisitsComponent implements OnInit {
     this.store
       .select(CountryVisitSelectors.selectExistsInStore(id))
       .pipe(
-        take(1),
-        tap((idInStore) => {
-          if (idInStore) {
-            this.store.dispatch(CountryVisitActions.update({ countryVisit }));
-          } else {
-            this.store.dispatch(CountryVisitActions.add({ countryVisit }));
-          }
-        })
+        take(1) // completes and unsubscribes immediately (no need to unsubscribe explicitly)
       )
-      .subscribe();
+      .subscribe((idInStore) => {
+        if (idInStore) {
+          this.store.dispatch(CountryVisitActions.update({ countryVisit }));
+        } else {
+          this.store.dispatch(CountryVisitActions.add({ countryVisit }));
+        }
+      });
   }
 
   get visitGroups() {
