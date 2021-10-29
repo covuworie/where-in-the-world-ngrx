@@ -17,7 +17,7 @@ export const reducer = createReducer(
 
   on(
     UserSettingsActions.changeThemeSuccess,
-    UserSettingsActions.loadSuccess,
+    UserSettingsActions.loadUserSettingsSuccess,
     (state, { theme }): State => {
       return {
         ...state,

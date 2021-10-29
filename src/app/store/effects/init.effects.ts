@@ -24,7 +24,7 @@ export class InitEffects {
   loadTheme$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ROOT_EFFECTS_INIT),
-      map(() => UserSettingsActions.load())
+      map(() => UserSettingsActions.loadUserSettings())
     );
   });
 }

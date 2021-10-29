@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import * as CountryDetailActions from '../state/country-detail.actions';
 import { ActivatedRoute } from '@angular/router';
 import { CountryDetailFacadeService } from 'src/app/store/facades/country-detail.facade.service';
-import { Store } from '@ngrx/store';
 import { filter, switchMap } from 'rxjs/operators';
 
 @Component({
@@ -15,8 +14,7 @@ export class CountryDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public countryDetailFacade: CountryDetailFacadeService,
-    public store: Store
-  ) {}
+  ) { }
 
   ngOnInit() {
     // unsubscribes automatically when the component is destroyed

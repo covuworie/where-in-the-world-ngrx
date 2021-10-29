@@ -5,13 +5,12 @@ import {
   faMoon,
   faSun,
 } from '@fortawesome/free-solid-svg-icons';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import HeaderViewModel from './header-view.model';
-import * as HeaderSelectors from '../../store/selectors/header.selectors';
 import * as UserSettingsActions from '../../store/actions/user-settings.actions';
 import * as WishListActions from '../../store/actions/wish-list.actions';
 import { Theme } from '../theme/theme.model';
+import { HeaderFacadeService } from 'src/app/store/facades/header-facade.service';
 
 @Component({
   selector: 'app-header',
@@ -28,13 +27,12 @@ export class HeaderComponent implements OnInit {
 
   // public methods
   changeTheme(theme: Theme) {
-    this.store.dispatch(UserSettingsActions.changeTheme({ theme }));
+    this.headerFacade.dispatch(UserSettingsActions.changeTheme({ theme }));
   }
 
-  constructor(private store: Store) {}
+  constructor(public headerFacade: HeaderFacadeService) {}
 
   ngOnInit() {
-    this.store.dispatch(WishListActions.load());
-    this.vm$ = this.store.select(HeaderSelectors.selectHeaderViewModel);
+    this.headerFacade.dispatch(WishListActions.load());
   }
 }

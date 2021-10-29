@@ -33,10 +33,10 @@ export class UserSettingsEffects {
 
   loadTheme$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(UserSettingsActions.load),
+      ofType(UserSettingsActions.loadUserSettings),
       map(() => this.themeService.Theme),
       tap((theme) => this.renderThemeChange(theme)),
-      map((theme) => UserSettingsActions.loadSuccess({ theme }))
+      map((theme) => UserSettingsActions.loadUserSettingsSuccess({ theme }))
     );
   });
 
