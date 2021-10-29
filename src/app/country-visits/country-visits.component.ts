@@ -44,6 +44,11 @@ export class CountryVisitsComponent implements OnInit, OnDestroy {
     // set country names for validation
     this.store
       .select(CountrySelectors.selectCommonNames)
+      // This file should also use the facade pattern as the rest of the code does:
+      // https://auth0.com/blog/ngrx-facades-pros-and-cons/.
+      // However, I've left this here as a reference of direct communication from a
+      // component to the store. You can see this is a lot messier as the component
+      // needs knowledge about actions and selectors.
       // Use the takeUntil approach described here for managing subscriptions:
       // https://blog.briebug.com/blog/when-should-i-unsubscribe-my-subscriptions-in-angular
       .pipe(takeUntil(this.destroy$))
