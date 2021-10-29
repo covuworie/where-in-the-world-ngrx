@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import CountrySummaryViewModel from 'src/app/shared/country-summary/country-summary-view.model';
 import * as CountrySummarySelectors from '../selectors/country-summary.selectors';
@@ -16,6 +16,10 @@ export class CountrySummaryFacadeService {
     this.countries$ = this.store.select(
       CountrySummarySelectors.selectCountrySummaryViewModels
     );
+  }
+
+  dispatch(action: Action) {
+    this.store.dispatch(action);
   }
 
   filterByPartialName(partialName: string) {

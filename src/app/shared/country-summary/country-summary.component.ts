@@ -1,9 +1,9 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import { Store } from '@ngrx/store';
 import CountrySummaryViewModel from './country-summary-view.model';
 import * as WishListActions from '../../store/actions/wish-list.actions';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { CountrySummaryFacadeService } from 'src/app/store/facades/country-summary-facade.service';
 
 @Component({
   selector: 'app-country-summary',
@@ -35,7 +35,7 @@ export class CountrySummaryComponent implements OnInit {
   private wishListHeartOn = { ...this.wishListHeartOff, color: '#ff0000' };
 
   // public methods
-  constructor(private store: Store) {}
+  constructor(private countrySummaryFacade: CountrySummaryFacadeService) {}
 
   ngOnInit() {
     this.country.onWishList
@@ -45,11 +45,11 @@ export class CountrySummaryComponent implements OnInit {
 
   onToggleWishList(name: string) {
     if (this.country.onWishList) {
-      this.store.dispatch(WishListActions.remove({ name }));
+      this.countrySummaryFacade.dispatch(WishListActions.remove({ name }));
       this.heartComponent.styles = this.wishListHeartOff;
       this.country.onWishList = false;
     } else {
-      this.store.dispatch(WishListActions.add({ name }));
+      this.countrySummaryFacade.dispatch(WishListActions.add({ name }));
       this.heartComponent.styles = this.wishListHeartOn;
       this.country.onWishList = true;
     }
