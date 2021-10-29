@@ -1,35 +1,38 @@
-<main class="country-details-grid" *ngIf="vm$ | async as vm">
-  <img class="flag" [src]="vm.flagUrl" alt="{{ vm.name }} flag" />
+<main
+  class="country-details-grid"
+  *ngIf="countryDetailFacade.country$ | async as country"
+>
+  <img class="flag" [src]="country.flagUrl" alt="{{ country.name }} flag" />
   <div lass="overview">
-    <h1>{{ vm.name }}</h1>
+    <h1>{{ country.name }}</h1>
     <ul>
-      <li><b>Native Name</b>: {{ vm.nativeName }}</li>
-      <li><b>Population</b>: {{ vm.population }}</li>
-      <li><b>Region</b>: {{ vm.region }}</li>
-      <li><b>Sub Region</b>: {{ vm.subRegion }}</li>
-      <li><b>Capital</b>: {{ vm.capital }}</li>
+      <li><b>Native Name</b>: {{ country.nativeName }}</li>
+      <li><b>Population</b>: {{ country.population }}</li>
+      <li><b>Region</b>: {{ country.region }}</li>
+      <li><b>Sub Region</b>: {{ country.subRegion }}</li>
+      <li><b>Capital</b>: {{ country.capital }}</li>
     </ul>
   </div>
   <div class="lang-money">
     <ul>
-      <li><b>Languages</b>: {{ vm.languageNames.join(", ") }}</li>
+      <li><b>Languages</b>: {{ country.languageNames.join(", ") }}</li>
       <li>
         <b>Currencies</b>:
-        {{ vm.currencyNamesAndSymbols.join(", ") }}
+        {{ country.currencyNamesAndSymbols.join(", ") }}
       </li>
     </ul>
   </div>
   <div class="codes">
     <ul>
-      <li><b>Calling Code</b>: {{ vm.callingCode }}</li>
-      <li><b>ISO 3166-1 alpha-3 Code</b>: {{ vm.alpha3Code }}</li>
-      <li><b>Top Level Domain</b>: {{ vm.topLevelDomain }}</li>
+      <li><b>Calling Code</b>: {{ country.callingCode }}</li>
+      <li><b>ISO 3166-1 alpha-3 Code</b>: {{ country.alpha3Code }}</li>
+      <li><b>Top Level Domain</b>: {{ country.topLevelDomain }}</li>
     </ul>
   </div>
   <div class="borders">
     <p><b class="bordering-countries">Bordering Countries</b></p>
     <ul>
-      <li *ngFor="let borderingCountry of vm.borderingCountries">
+      <li *ngFor="let borderingCountry of country.borderingCountries">
         <a routerLink="/countries/{{ borderingCountry.name | hyphenateUri }}">
           <img
             [src]="borderingCountry.flagUrl"
