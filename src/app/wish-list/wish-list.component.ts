@@ -1,24 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import CountrySummaryViewModel from '../shared/country-summary/country-summary-view.model';
-import * as CountrySummarySelectors from '../store/selectors/country-summary.selectors';
+import { Component } from '@angular/core';
+import { WishListFacadeService } from '../store/facades/wish-list-facade.service';
 
 @Component({
   selector: 'app-wish-list',
   templateUrl: './wish-list.component.html',
   styleUrls: ['./wish-list.component.scss'],
 })
-export class WishListComponent implements OnInit {
-  // public properties
-  vm$: Observable<CountrySummaryViewModel[]> = of([]);
-
+export class WishListComponent {
   // public methods
-  constructor(private store: Store) {}
-
-  ngOnInit() {
-    this.vm$ = this.store.select(
-      CountrySummarySelectors.selectCountrySummaryViewModelsByNames
-    );
-  }
+  constructor(public wishListFacade: WishListFacadeService) {}
 }

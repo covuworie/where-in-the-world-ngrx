@@ -1,3 +1,3 @@
-<main *ngIf="vm$ | async as vm">
-  <app-country-grid [countries]="vm"></app-country-grid>
+<main *ngIf="wishListFacade.countries$ | async as countries">
+  <app-country-grid [countries]="countries"></app-country-grid>
 </main>
