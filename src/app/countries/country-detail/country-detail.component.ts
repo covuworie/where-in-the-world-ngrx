@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as CountryDetailActions from '../state/country-detail.actions';
 import { ActivatedRoute } from '@angular/router';
-import { CountryDetailFacadeService } from 'src/app/store/facades/country-detail.facade.service';
+import { CountryDetailFacadeService } from 'src/app/store/facades/country-detail-facade.service';
 import { filter, switchMap } from 'rxjs/operators';
 
 @Component({
