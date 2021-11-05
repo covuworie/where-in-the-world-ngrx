@@ -1,3 +1,33 @@
 {
-  "wishList": []
+  "countryVisits": [
+    {
+      "id": "1ef80242-fd74-475a-8636-8ffff7a374c1",
+      "year": 2005,
+      "country": "Brazil",
+      "duration": 12
+    },
+    {
+      "id": "2501759a-0f52-41d5-b818-aaa18c48f03a",
+      "year": 2018,
+      "country": "Argentina",
+      "duration": 10
+    },
+    {
+      "id": "991f1c3b-a11c-4425-9069-1a3d4dd3d08a",
+      "year": 2003,
+      "country": "Dominican Republic",
+      "duration": 14
+    }
+  ],
+  "wishList": [
+    {
+      "id": "Albania"
+    },
+    {
+      "id": "Brazil"
+    },
+    {
+      "id": "Fiji"
+    }
+  ]
 }
